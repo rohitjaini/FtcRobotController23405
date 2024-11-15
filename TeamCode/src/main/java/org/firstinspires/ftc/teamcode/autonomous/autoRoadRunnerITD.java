@@ -32,6 +32,7 @@ public class autoRoadRunnerITD extends LinearOpMode {
     public static int INTAKE_ARM_DOWN = 250;
     public static double SLIDE_MAX_SPEED = 0.5;
     public static double ARM_MAX_SPEED = 0.5;
+    public static double WRIST_SERVO_DOWN = 0;
 
     public static class SpecClaw {
         private final Servo specServo;
@@ -64,7 +65,24 @@ public class autoRoadRunnerITD extends LinearOpMode {
             return new OpenClaw();
         }
     }
+    public static class WristServo {
+        private final Servo rightWristServo;
 
+        public WristServo(HardwareMap hardwareMap) {
+            rightWristServo = hardwareMap.get(Servo.class, "rightWristServo");
+        }
+
+        public class WristServoIn implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                rightWristServo.setPosition(WRIST_SERVO_DOWN);
+                return false;
+            }
+        }
+        public Action wristServoIn() {
+            return new WristServoIn();
+        }
+    }
     public static class Slides {
         private final PIDFMotorController slideController;
 
@@ -190,28 +208,30 @@ public class autoRoadRunnerITD extends LinearOpMode {
         SpecClaw specClaw = new SpecClaw(hardwareMap);
         Slides slides = new Slides(hardwareMap);
         IntakeArm intakeArm = new IntakeArm(hardwareMap);
+        WristServo wristServo = new WristServo(hardwareMap);
 
         TrajectoryActionBuilder moveAwayFromBarrier = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(13, -50));
-        TrajectoryActionBuilder moveIntoSpec1Position = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(0, -30));
-        TrajectoryActionBuilder driveBack = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(0, -34));
-        TrajectoryActionBuilder pushSampleGrabSpec = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(37, -35))
-                .strafeTo(new Vector2d(37, -10))
-                .splineTo(new Vector2d(47, -10), Math.toRadians(270))
-                .strafeTo(new Vector2d(47, -51))
-                .strafeTo(new Vector2d(47, -59))
-                .strafeTo(new Vector2d(47, -45))
+        TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
+                .strafeTo(new Vector2d(0, -28));
+        TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
+                .strafeTo(new Vector2d(0, -35));
+        TrajectoryActionBuilder pushSampleGrabSpec = driveBack.fresh()
+                .strafeTo(new Vector2d(45, -35))
+                .strafeTo(new Vector2d(45, -10))
+                .splineTo(new Vector2d(55, -10), Math.toRadians(270))
+                .strafeTo(new Vector2d(55, -51))
+                .strafeTo(new Vector2d(55, -57))
+                .strafeTo(new Vector2d(55, -45))
                 .waitSeconds(3)
-                .strafeTo(new Vector2d(47, -61.5));
-        TrajectoryActionBuilder goToSubSecondSpec = drive.actionBuilder(beginPose)
+                .strafeTo(new Vector2d(55, -59));
+        TrajectoryActionBuilder goToSubSecondSpec = pushSampleGrabSpec.fresh()
                 .waitSeconds(0.5)
-                .strafeTo(new Vector2d(47, -45))
-                .splineTo(new Vector2d(4, -52), Math.toRadians(270))
+                .strafeTo(new Vector2d(55, -45))
+                .turn(Math.toRadians(180))
+                .strafeTo(new Vector2d(4,-45))
                 .strafeTo(new Vector2d(4, -27));
-        TrajectoryActionBuilder goBackAndPark = drive.actionBuilder(beginPose)
+        TrajectoryActionBuilder goBackAndPark = goToSubSecondSpec.fresh()
                 .waitSeconds(1)
                 .splineTo(new Vector2d(47, -47), Math.toRadians(90))
                 .strafeTo(new Vector2d(47, -58));
@@ -259,6 +279,7 @@ public class autoRoadRunnerITD extends LinearOpMode {
                 slides.slidesToSpecPickup(), //bring slides down
                 waitForUser(),
                 new SleepAction(3),
+                wristServo.wristServoIn(),
                 intakeArm.intakeArmUp() //bring intake arm in to get ready for teleop
         );
         Action pidControlLoops = new ParallelAction(
