@@ -26,13 +26,14 @@ public class autoRoadRunnerITD extends LinearOpMode {
     public static int SLIDES_ABOVE_BAR = 1900;
     public static int SLIDES_BELOW_BAR = 1270;
     public static int SLIDES_SPEC_PICKUP = 0;
-    public static double SPEC_CLAW_CLOSE = 0.2;
-    public static double SPEC_CLAW_OPEN = 0.8;
+    public static double SPEC_CLAW_CLOSE = 0.3;
+    public static double SPEC_CLAW_OPEN = 0.9;
     public static int INTAKE_ARM_UP = 10;
     public static int INTAKE_ARM_DOWN = 250;
-    public static double SLIDE_MAX_SPEED = 0.5;
+    public static double SLIDE_MAX_SPEED = 0.7;
     public static double ARM_MAX_SPEED = 0.5;
-    public static double WRIST_SERVO_DOWN = 0;
+    public static double WRIST_SERVO_DOWN = 0.05;
+    public static int ARM_INITIAL_ANGLE = 50; //deg
 
     public static class SpecClaw {
         private final Servo specServo;
@@ -97,8 +98,10 @@ public class autoRoadRunnerITD extends LinearOpMode {
         public class SlidesPIDIteration implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                double power = slideController.runIteration();
-                packet.put("slides motor power", power);
+                PIDFMotorController.MotorData data = slideController.runIteration();
+                packet.put("slides power", data.SetPower);
+                packet.put("slides position", data.CurrentPosition);
+                packet.put("slides target", data.TargetPosition);
                 return true;
             }
         }
@@ -142,15 +145,17 @@ public class autoRoadRunnerITD extends LinearOpMode {
             DcMotorEx intakeArmMotor = hardwareMap.get(DcMotorEx.class, "intakeArmMotor");
             intakeArmMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
             double armTicksInDegrees = 1425.1 / 360.0;
-            armController = new PIDFMotorController(intakeArmMotor, 0.01, 0.23, 0.001, 0.4, armTicksInDegrees, ARM_MAX_SPEED);
+            armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.13, 0.001, 0.4, armTicksInDegrees, ARM_MAX_SPEED, ARM_INITIAL_ANGLE);
             armController.resetMotorEncoder();
         }
 
         public class ArmPIDIteration implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                double power = armController.runIteration();
-                packet.put("intake arm motor power", power);
+                PIDFMotorController.MotorData data = armController.runIteration();
+                packet.put("arm power", data.SetPower);
+                packet.put("arm position", data.CurrentPosition);
+                packet.put("arm target", data.TargetPosition);
                 return true;
             }
         }
@@ -193,7 +198,7 @@ public class autoRoadRunnerITD extends LinearOpMode {
             }
             packet.put("Waiting For User", true);
             USER_INPUT_FLAG = false;
-            return true;
+            return false;
         }
     }
 
@@ -211,30 +216,38 @@ public class autoRoadRunnerITD extends LinearOpMode {
         WristServo wristServo = new WristServo(hardwareMap);
 
         TrajectoryActionBuilder moveAwayFromBarrier = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(13, -50));
+                .strafeTo(new Vector2d(13, -50)) //move forward to let arm go back
+                .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
-                .strafeTo(new Vector2d(0, -28));
+                .waitSeconds(1.5) // wait for slides to go up
+                .strafeTo(new Vector2d(0, -25)) // go to sub to clip spec
+                .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
-                .strafeTo(new Vector2d(0, -35));
+                .strafeTo(new Vector2d(0, -35)) // drive back from the sub to push sample
+                .waitSeconds(0.001);
         TrajectoryActionBuilder pushSampleGrabSpec = driveBack.fresh()
-                .strafeTo(new Vector2d(45, -35))
-                .strafeTo(new Vector2d(45, -10))
-                .splineTo(new Vector2d(55, -10), Math.toRadians(270))
-                .strafeTo(new Vector2d(55, -51))
-                .strafeTo(new Vector2d(55, -57))
-                .strafeTo(new Vector2d(55, -45))
-                .waitSeconds(3)
-                .strafeTo(new Vector2d(55, -59));
+                .strafeTo(new Vector2d(43, -35)) // go to the right
+                .strafeTo(new Vector2d(43, -10)) // go up field
+                .splineTo(new Vector2d(53, -10), Math.toRadians(270)) //spline to push sample (turns 180 NOT relative)
+                .strafeTo(new Vector2d(53, -51))
+                .strafeTo(new Vector2d(53, -57)) //push spec into player person zone
+                .strafeTo(new Vector2d(53, -45)) //come out to let player person clip spec on wall
+                .waitSeconds(2.5) //wait for player person to clip
+                .strafeTo(new Vector2d(53, -63.7)) //go in to zone again to grab spec
+                .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = pushSampleGrabSpec.fresh()
                 .waitSeconds(0.5)
-                .strafeTo(new Vector2d(55, -45))
-                .turn(Math.toRadians(180))
-                .strafeTo(new Vector2d(4,-45))
-                .strafeTo(new Vector2d(4, -27));
+                .strafeTo(new Vector2d(53, -45)) //strafe up field
+                .strafeToLinearHeading(new Vector2d(4,-45),Math.toRadians(270)) //change heading
+                .strafeTo(new Vector2d(4, -25))
+                .waitSeconds(0.001);
         TrajectoryActionBuilder goBackAndPark = goToSubSecondSpec.fresh()
                 .waitSeconds(1)
-                .splineTo(new Vector2d(47, -47), Math.toRadians(90))
-                .strafeTo(new Vector2d(47, -58));
+                .strafeTo(new Vector2d(4, -45))
+                .strafeToLinearHeading(new Vector2d(47,-45), Math.toRadians(90))
+                .strafeTo(new Vector2d(47, -45))
+                .strafeTo(new Vector2d(47, -54))
+                .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
         Action moveIntoSpec1PositionAction = moveIntoSpec1Position.build();
@@ -278,8 +291,9 @@ public class autoRoadRunnerITD extends LinearOpMode {
                 waitForUser(),
                 slides.slidesToSpecPickup(), //bring slides down
                 waitForUser(),
-                new SleepAction(3),
+                new SleepAction(1), //wait for slides to come down
                 wristServo.wristServoIn(),
+                new SleepAction(0.5), //wait for servo to go in
                 intakeArm.intakeArmUp() //bring intake arm in to get ready for teleop
         );
         Action pidControlLoops = new ParallelAction(
