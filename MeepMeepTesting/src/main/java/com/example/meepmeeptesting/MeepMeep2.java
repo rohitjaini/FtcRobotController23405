@@ -16,7 +16,7 @@ public class MeepMeep2 {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(130, 80, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(140, 90, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
         Pose2d beginPose = new Pose2d(13, -61.5, Math.toRadians(270));
@@ -32,12 +32,11 @@ public class MeepMeep2 {
                 .strafeTo(new Vector2d(0, -35))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
-                .strafeTo(new Vector2d(43, -35))
-                .strafeTo(new Vector2d(43, -10))
+                .splineToConstantHeading(new Vector2d(45,-9),Math.PI/2)
                 .splineTo(new Vector2d(53, -10), Math.toRadians(270))
                 .strafeTo(new Vector2d(53, -57))
                 .strafeTo(new Vector2d(53, -10))
-                .splineToConstantHeading(new Vector2d(61,-58), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(64,-58), Math.toRadians(270))
                 .strafeTo(new Vector2d(58,-63.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = push2SamplesGrabSpec.fresh()

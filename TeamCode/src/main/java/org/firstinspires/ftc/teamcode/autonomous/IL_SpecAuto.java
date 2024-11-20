@@ -30,7 +30,7 @@ public class IL_SpecAuto extends LinearOpMode {
     public static double SPEC_CLAW_OPEN = 0.9;
     public static int INTAKE_ARM_UP = 10;
     public static int INTAKE_ARM_DOWN = 250;
-    public static double SLIDE_MAX_SPEED = 0.7;
+    public static double SLIDE_MAX_SPEED = 0.9;
     public static double ARM_MAX_SPEED = 0.5;
     public static double WRIST_SERVO_DOWN = 0.05;
     public static int ARM_INITIAL_ANGLE = 50; //deg
@@ -214,6 +214,7 @@ public class IL_SpecAuto extends LinearOpMode {
         Slides slides = new Slides(hardwareMap);
         IntakeArm intakeArm = new IntakeArm(hardwareMap);
         WristServo wristServo = new WristServo(hardwareMap);
+
 
         TrajectoryActionBuilder moveAwayFromBarrier = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(13, -50))
