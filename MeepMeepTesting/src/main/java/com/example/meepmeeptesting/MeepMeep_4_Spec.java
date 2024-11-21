@@ -10,13 +10,13 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class MeepMeep2 {
+public class MeepMeep_4_Spec {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(140, 90, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(200, 150, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
         Pose2d beginPose = new Pose2d(13, -61.5, Math.toRadians(270));
@@ -60,9 +60,22 @@ public class MeepMeep2 {
                 .strafeTo(new Vector2d(-4, -25))
                 .waitSeconds(0.001)
                 .waitSeconds(0.5);
-        TrajectoryActionBuilder goBackAndPark = goToSubThirdSpec.fresh()
+        TrajectoryActionBuilder goToZoneFourthSpec = goToSubThirdSpec.fresh()
+                .waitSeconds(0.001)
+                .strafeTo(new Vector2d(-4,-35))
+                .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
+                .strafeTo(new Vector2d(58,-63.5))
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder goToSubFourthSpec = goToZoneFourthSpec.fresh()
+                .waitSeconds(0.5)
+                .strafeTo(new Vector2d(58, -45)) //strafe up field
+                .strafeToLinearHeading(new Vector2d(-7,-45), Math.toRadians(270)) //change heading
+                .strafeTo(new Vector2d(-7, -25))
+                .waitSeconds(0.001)
+                .waitSeconds(0.5);
+        TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
                 .waitSeconds(1)
-                .strafeTo(new Vector2d(-4, -45))
+                .strafeTo(new Vector2d(-7, -45))
                 .strafeToLinearHeading(new Vector2d(52,-59), Math.toRadians(90))
                 .waitSeconds(0.001);
 
@@ -73,6 +86,8 @@ public class MeepMeep2 {
         Action goToSubSecondSpecAction = goToSubSecondSpec.build();
         Action goToZoneThirdSpecAction = goToZoneThirdSpec.build();
         Action goToSubThirdSpecAction = goToSubThirdSpec.build();
+        Action goToZoneFourthSpecAction = goToZoneFourthSpec.build();
+        Action goToSubFourthSpecAction = goToSubFourthSpec.build();
         Action goBackAndParkAction = goBackAndPark.build();
 
         Action autoSequence = new SequentialAction(
@@ -83,6 +98,8 @@ public class MeepMeep2 {
                 goToSubSecondSpecAction,
                 goToZoneThirdSpecAction,
                 goToSubThirdSpecAction,
+                goToZoneFourthSpecAction,
+                goToSubFourthSpecAction,
                 goBackAndParkAction
         );
 
