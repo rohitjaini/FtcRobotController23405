@@ -226,18 +226,22 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
                 .strafeTo(new Vector2d(0, -37))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
+        TrajectoryActionBuilder push3SamplesGrabSpec = driveBack.fresh()
                 .strafeTo(new Vector2d(43, -35)) // go to the right
                 .strafeTo(new Vector2d(43, -10))
                 .splineTo(new Vector2d(53, -10), Math.toRadians(270))
                 .strafeTo(new Vector2d(53, -57))
                 .strafeTo(new Vector2d(53, -3))
                 .waitSeconds(0.5)
-                .strafeTo(new Vector2d(62,-3))
-                .strafeTo(new Vector2d(62,-58))
+                .strafeTo(new Vector2d(60,-3))
+                .strafeTo(new Vector2d(60,-58))
+                .strafeTo(new Vector2d(60,-3))
+                .strafeTo(new Vector2d(67,-3))
+                .strafeTo(new Vector2d(67,-60))
+                .strafeTo(new Vector2d(58,-60))
                 .strafeTo(new Vector2d(58,-63.5))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder goToSubSecondSpec = push2SamplesGrabSpec.fresh()
+        TrajectoryActionBuilder goToSubSecondSpec = push3SamplesGrabSpec.fresh()
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(53, -45)) //strafe up field
                 .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
@@ -274,13 +278,13 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .waitSeconds(0.3)
                 .waitSeconds(1)
                 .strafeTo(new Vector2d(-4, -45))
-                .strafeToLinearHeading(new Vector2d(55,-60), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(55,-58), Math.toRadians(90))
                 .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
         Action moveIntoSpec1PositionAction = moveIntoSpec1Position.build();
         Action driveBackAction = driveBack.build();
-        Action push2SamplesGrabSpecAction = push2SamplesGrabSpec.build();
+        Action push3SamplesGrabSpecAction = push3SamplesGrabSpec.build();
         Action goToSubSecondSpecAction = goToSubSecondSpec.build();
         Action goToZoneThirdSpecAction = goToZoneThirdSpec.build();
         Action goToSubThirdSpecAction = goToSubThirdSpec.build();
@@ -301,7 +305,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 driveBackAction, //drive back to put slides fully down
                 waitForUser(),
                 waitForUser(),
-                push2SamplesGrabSpecAction, //pushes sample into player person zone, then grabs spec
+                push3SamplesGrabSpecAction, //pushes sample into player person zone, then grabs spec
                 waitForUser(),
                 waitForUser(),
                 waitForUser(),

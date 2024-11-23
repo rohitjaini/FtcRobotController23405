@@ -25,31 +25,37 @@ public class MeepMeep_4_Spec {
                 .strafeTo(new Vector2d(13, -50))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
-                .waitSeconds(1)
+                .waitSeconds(1.5)
                 .strafeTo(new Vector2d(0, -25))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
-                .waitSeconds(0.5)
-                .strafeTo(new Vector2d(0, -35))
+                .strafeTo(new Vector2d(0, -37))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
-                .splineToConstantHeading(new Vector2d(45,-9),Math.PI/2)
+        TrajectoryActionBuilder push3SamplesGrabSpec = driveBack.fresh()
+                .strafeTo(new Vector2d(43, -35)) // go to the right
+                .strafeTo(new Vector2d(43, -10))
                 .splineTo(new Vector2d(53, -10), Math.toRadians(270))
                 .strafeTo(new Vector2d(53, -57))
-                .strafeTo(new Vector2d(53, -10))
-                .splineToConstantHeading(new Vector2d(64,-58), Math.toRadians(270))
+                .strafeTo(new Vector2d(53, -3))
+                .waitSeconds(0.5)
+                .strafeTo(new Vector2d(60,-3))
+                .strafeTo(new Vector2d(60,-58))
+                .strafeTo(new Vector2d(60,-3))
+                .strafeTo(new Vector2d(67,-3))
+                .strafeTo(new Vector2d(67,-60))
+                .strafeTo(new Vector2d(58,-60))
                 .strafeTo(new Vector2d(58,-63.5))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder goToSubSecondSpec = push2SamplesGrabSpec.fresh()
+        TrajectoryActionBuilder goToSubSecondSpec = push3SamplesGrabSpec.fresh()
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(53, -45)) //strafe up field
-                .strafeToLinearHeading(new Vector2d(4,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(4, -25))
-                .waitSeconds(0.001)
-                .waitSeconds(0.5);
+                .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
+                .strafeTo(new Vector2d(2, -25))
+                .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
-                .strafeTo(new Vector2d(4,-35))
+                .waitSeconds(0.3)
+                .strafeTo(new Vector2d(2,-35))
                 .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
                 .strafeTo(new Vector2d(58,-63.5))
                 .waitSeconds(0.001);
@@ -59,7 +65,7 @@ public class MeepMeep_4_Spec {
                 .strafeToLinearHeading(new Vector2d(-4,-45), Math.toRadians(270)) //change heading
                 .strafeTo(new Vector2d(-4, -25))
                 .waitSeconds(0.001)
-                .waitSeconds(0.5);
+                .waitSeconds(0.3);
         TrajectoryActionBuilder goToZoneFourthSpec = goToSubThirdSpec.fresh()
                 .waitSeconds(0.001)
                 .strafeTo(new Vector2d(-4,-35))
@@ -74,15 +80,16 @@ public class MeepMeep_4_Spec {
                 .waitSeconds(0.001)
                 .waitSeconds(0.5);
         TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
+                .waitSeconds(0.3)
                 .waitSeconds(1)
-                .strafeTo(new Vector2d(-7, -45))
-                .strafeToLinearHeading(new Vector2d(52,-59), Math.toRadians(90))
+                .strafeTo(new Vector2d(-4, -45))
+                .strafeToLinearHeading(new Vector2d(55,-58), Math.toRadians(90))
                 .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
         Action moveIntoSpec1PositionAction = moveIntoSpec1Position.build();
         Action driveBackAction = driveBack.build();
-        Action push2SamplesGrabSpecAction = push2SamplesGrabSpec.build();
+        Action push3SamplesGrabSpecAction = push3SamplesGrabSpec.build();
         Action goToSubSecondSpecAction = goToSubSecondSpec.build();
         Action goToZoneThirdSpecAction = goToZoneThirdSpec.build();
         Action goToSubThirdSpecAction = goToSubThirdSpec.build();
@@ -94,7 +101,7 @@ public class MeepMeep_4_Spec {
                 moveAwayFromBarrierAction,
                 moveIntoSpec1PositionAction,
                 driveBackAction,
-                push2SamplesGrabSpecAction,
+                push3SamplesGrabSpecAction,
                 goToSubSecondSpecAction,
                 goToZoneThirdSpecAction,
                 goToSubThirdSpecAction,
