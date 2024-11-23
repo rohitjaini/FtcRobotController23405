@@ -224,15 +224,17 @@ public class IL_SpecAuto extends LinearOpMode {
                 .strafeTo(new Vector2d(0, -25))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
-                .strafeTo(new Vector2d(0, -35))
+                .strafeTo(new Vector2d(0, -37))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
-                .strafeTo(new Vector2d(43, -35))
+                .strafeTo(new Vector2d(43, -35)) // go to the right
                 .strafeTo(new Vector2d(43, -10))
                 .splineTo(new Vector2d(53, -10), Math.toRadians(270))
                 .strafeTo(new Vector2d(53, -57))
-                .strafeTo(new Vector2d(53, -10))
-                .splineToConstantHeading(new Vector2d(61,-58), Math.toRadians(270))
+                .strafeTo(new Vector2d(53, -3))
+                .waitSeconds(0.5)
+                .strafeTo(new Vector2d(60,-3))
+                .strafeTo(new Vector2d(60,-58))
                 .strafeTo(new Vector2d(58,-63.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = push2SamplesGrabSpec.fresh()

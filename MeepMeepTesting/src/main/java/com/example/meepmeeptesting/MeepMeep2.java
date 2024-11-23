@@ -19,10 +19,10 @@ public class MeepMeep2 {
                 .setConstraints(140, 90, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        Pose2d beginPose = new Pose2d(13, -61.5, Math.toRadians(270));
+        Pose2d beginPose = new Pose2d(15, -61.5, Math.toRadians(270));
 
         TrajectoryActionBuilder moveAwayFromBarrier = myBot.getDrive().actionBuilder(beginPose)
-                .strafeTo(new Vector2d(13, -50))
+                .strafeTo(new Vector2d(15, -50))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
                 .waitSeconds(1)
@@ -30,7 +30,7 @@ public class MeepMeep2 {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
                 .waitSeconds(0.5)
-                .strafeTo(new Vector2d(0, -35))
+                .strafeTo(new Vector2d(0, -37))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
                 .splineToConstantHeading(new Vector2d(45,-9),Math.PI/2)
