@@ -26,23 +26,23 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
     public static int ARM_INITIAL_ANGLE = 50; //deg
     public static double MAX_SLIDE_POWER_UP = 0.9;
     public static double MAX_SLIDE_POWER_DOWN = 0.3;
-    public static int SLIDE_DEPOSIT_POSITION = 4250;
+    public static int SLIDE_DEPOSIT_POSITION = 3790;
     public static int SLIDE_SPEC_BAR_POSITION = 2250;
     public static int SLIDE_SPEC_CLIP_POSITION = 1750;
     public static int SLIDE_SPEC_GRAB_POSITION = 0;
     public static int ARM_GRAB_POSITION = 565;
-    public static int ARM_HOLD_POSITION = 250;
+    public static int ARM_HOLD_POSITION = 400;
     public static int ARM_TRANSFER_POSITION = 260;
-    public static int ARM_SUB_HOLD = 400;
+    public static int ARM_SUB_HOLD = 450;
     public static double WRIST_TRANSFER_POSITION = 0.20;
     public static double WRIST_GRAB_POSITION = 0.6;
-    public static double ARM_CLAW_FULL_OPEN = 0.4;
-    public static double ARM_CLAW_FULL_CLOSE = 0.63;
-    public static double ARM_CLAW_TRANSFER_OPEN = 0.55;
+    public static double ARM_CLAW_FULL_OPEN = 0.35;
+    public static double ARM_CLAW_FULL_CLOSE = 0.58;
+    public static double ARM_CLAW_TRANSFER_OPEN = 0.5;
     public static double SPEC_CLAW_OPEN = 0.9;
     public static double SPEC_CLAW_CLOSE = 0.3;
-    public static double BUCKET_DEPOSIT_POSITION = 0.1;
-    public static double BUCKET_TRANSFER_POSITION = 0.9;
+    public static double BUCKET_DEPOSIT_POSITION = 0.78;
+    public static double BUCKET_TRANSFER_POSITION = 0.1;
     private PIDFMotorController armController;
     private PIDFMotorController slideController;
 
@@ -129,8 +129,9 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
         double x = gamepad1.left_stick_x;  // Left/right
         double rx = gamepad1.right_stick_x; // Rotation
 
-        if (gamepad1.options) {
+        if (gamepad1.back) {
             imu.resetYaw();
+            gamepad1.rumble(100);
         }
 
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
