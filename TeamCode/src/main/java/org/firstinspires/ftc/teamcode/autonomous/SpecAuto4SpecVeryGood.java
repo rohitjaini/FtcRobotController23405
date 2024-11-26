@@ -224,10 +224,12 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .strafeTo(new Vector2d(0, -25))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
+                .waitSeconds(0.001)
                 .strafeTo(new Vector2d(0, -37))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder push3SamplesGrabSpec = driveBack.fresh()
-                .strafeTo(new Vector2d(43, -35)) // go to the right
+                .waitSeconds(0.001)
+                .strafeTo(new Vector2d(43, -37)) // go to the right
                 .strafeTo(new Vector2d(43, -10))
                 .splineTo(new Vector2d(53, -10), Math.toRadians(270))
                 .strafeTo(new Vector2d(53, -57))
