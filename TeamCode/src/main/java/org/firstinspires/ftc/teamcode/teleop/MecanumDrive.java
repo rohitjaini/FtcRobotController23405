@@ -140,7 +140,7 @@ public class MecanumDrive {
             backLeftMotorEncoder.setDirection(DcMotorSimple.Direction.FORWARD);
             backRightMotorEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
             frontRightMotorEncoder.setDirection(DcMotorSimple.Direction.FORWARD);
-            frontLeftMotorEncoder.setDirection(DcMotorSimple.Direction.FORWARD);
+            frontLeftMotorEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
 
             imu = lazyImu.get();
 
@@ -231,7 +231,7 @@ public class MecanumDrive {
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
