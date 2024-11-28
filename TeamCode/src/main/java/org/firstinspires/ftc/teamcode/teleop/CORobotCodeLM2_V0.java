@@ -24,9 +24,9 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
 
     public static double MAX_ARM_POWER = 0.7;
     public static int ARM_INITIAL_ANGLE = 50; //deg
-    public static double MAX_SLIDE_POWER_UP = 0.9;
-    public static double MAX_SLIDE_POWER_DOWN = 0.3;
-    public static int SLIDE_DEPOSIT_POSITION = 3790;
+    public static double MAX_SLIDE_POWER_UP = 1;
+    public static double MAX_SLIDE_POWER_DOWN = 0.5;
+    public static int SLIDE_DEPOSIT_POSITION = 3900;
     public static int SLIDE_SPEC_BAR_POSITION = 2250;
     public static int SLIDE_SPEC_CLIP_POSITION = 1750;
     public static int SLIDE_SPEC_GRAB_POSITION = 0;
