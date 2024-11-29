@@ -115,7 +115,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Initialize the IMU
         imu = hardwareMap.get(IMU.class, "imu");
