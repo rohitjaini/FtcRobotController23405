@@ -30,14 +30,14 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
     public static int SLIDE_SPEC_BAR_POSITION = 2250;
     public static int SLIDE_SPEC_CLIP_POSITION = 1750;
     public static int SLIDE_SPEC_GRAB_POSITION = 0;
-    public static int ARM_GRAB_POSITION = 565;
+    public static int ARM_GRAB_POSITION = 570;
     public static int ARM_HOLD_POSITION = 400;
     public static int ARM_TRANSFER_POSITION = 260;
     public static int ARM_SUB_HOLD = 450;
     public static double WRIST_TRANSFER_POSITION = 0.20;
     public static double WRIST_GRAB_POSITION = 0.6;
-    public static double ARM_CLAW_FULL_OPEN = 0.35;
-    public static double ARM_CLAW_FULL_CLOSE = 0.58;
+    public static double ARM_CLAW_FULL_OPEN = 0.45;
+    public static double ARM_CLAW_FULL_CLOSE = 0.65;
     public static double ARM_CLAW_TRANSFER_OPEN = 0.5;
     public static double SPEC_CLAW_OPEN = 0.9;
     public static double SPEC_CLAW_CLOSE = 0.3;
@@ -116,6 +116,11 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Initialize the IMU
         imu = hardwareMap.get(IMU.class, "imu");
