@@ -194,7 +194,7 @@ public class IL_SpecAuto extends LinearOpMode {
             if(USER_INPUT_FLAG){
                 USER_INPUT_FLAG = false;
                 packet.put("Waiting For User", false);
-                return false;
+                return true;
             }
             packet.put("Waiting For User", true);
             USER_INPUT_FLAG = false;
@@ -221,13 +221,13 @@ public class IL_SpecAuto extends LinearOpMode {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
                 .waitSeconds(1.5)
-                .strafeTo(new Vector2d(0, -25))
+                .strafeTo(new Vector2d(0, -38))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
-                .strafeTo(new Vector2d(0, -37))
+                .strafeTo(new Vector2d(0, -45))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
-                .strafeTo(new Vector2d(43, -37)) // go to the right
+                .strafeTo(new Vector2d(43, -45)) // go to the right
                 .strafeTo(new Vector2d(43, -10))
                 .splineTo(new Vector2d(53, -10), Math.toRadians(270))
                 .strafeTo(new Vector2d(53, -57))
@@ -241,7 +241,7 @@ public class IL_SpecAuto extends LinearOpMode {
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(53, -45)) //strafe up field
                 .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(2, -25))
+                .strafeTo(new Vector2d(2, -38))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
@@ -254,7 +254,7 @@ public class IL_SpecAuto extends LinearOpMode {
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(58, -45)) //strafe up field
                 .strafeToLinearHeading(new Vector2d(-4,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(-4, -25))
+                .strafeTo(new Vector2d(-4, -38))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goBackAndPark = goToSubThirdSpec.fresh()
                 .waitSeconds(0.3)
@@ -276,27 +276,19 @@ public class IL_SpecAuto extends LinearOpMode {
                 waitForUser(),
                 moveAwayFromBarrierAction, // Move away from the barrier
                 waitForUser(),
-                waitForUser(),
-                waitForUser(),
                 moveIntoSpec1PositionAction, // Move into position to place the first spec
-                waitForUser(),
-                waitForUser(),
                 waitForUser(),
                 driveBackAction, //drive back to put slides fully down
                 waitForUser(),
-                waitForUser(),
                 push2SamplesGrabSpecAction, //pushes sample into player person zone, then grabs spec
                 waitForUser(),
-                waitForUser(),
-                waitForUser(),
                 goToSubSecondSpecAction,
+                waitForUser(),
                 goToZoneThirdSpecAction,
+                waitForUser(),
                 goToSubThirdSpecAction,
                 waitForUser(),
-                waitForUser(),
-                waitForUser(),
                 goBackAndParkAction, //park in player person zone
-                waitForUser(),
                 waitForUser(),
                 new SleepAction(1), //wait for slides to come down
                 new SleepAction(0.5) //wait for servo to go in
