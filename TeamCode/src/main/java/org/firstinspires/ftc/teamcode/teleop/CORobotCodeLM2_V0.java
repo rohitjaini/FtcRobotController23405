@@ -80,6 +80,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
             intakeControl();
             bucketControl();
             specClawControl();
+            resetSlidePID();
 
             runPIDIterations();
             telemetry.update();
@@ -225,7 +226,12 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
             specServo.setPosition(SPEC_CLAW_OPEN); //open spec claw
         }
     }
-
+    private void resetSlidePID(){
+        if (gamepad2.back) {
+            slideController.resetMotorEncoder();
+            gamepad2.rumble(100);
+        }
+    }
     private void runPIDIterations() {
         PIDFMotorController.MotorData armMotorData = armController.runIteration();
         PIDFMotorController.MotorData slideMotorData = slideController.runIteration();
