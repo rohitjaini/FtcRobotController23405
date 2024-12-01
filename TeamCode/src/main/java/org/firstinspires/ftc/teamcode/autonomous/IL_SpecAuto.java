@@ -217,17 +217,17 @@ public class IL_SpecAuto extends LinearOpMode {
 
 
         TrajectoryActionBuilder moveAwayFromBarrier = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(13, -50))
+                .strafeTo(new Vector2d(13, -50)) //strafe slightly forward to take out mechanisms
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
                 .waitSeconds(1.5)
-                .strafeTo(new Vector2d(0, -38))
+                .strafeTo(new Vector2d(0, -33))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
-                .strafeTo(new Vector2d(0, -45))
+                .strafeTo(new Vector2d(0, -40))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
-                .strafeTo(new Vector2d(43, -45)) // go to the right
+                .strafeTo(new Vector2d(43, -35)) // go to the right
                 .strafeTo(new Vector2d(43, -10))
                 .splineTo(new Vector2d(53, -10), Math.toRadians(270))
                 .strafeTo(new Vector2d(53, -57))
@@ -241,7 +241,7 @@ public class IL_SpecAuto extends LinearOpMode {
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(53, -45)) //strafe up field
                 .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(2, -38))
+                .strafeTo(new Vector2d(2, -33))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
@@ -254,7 +254,7 @@ public class IL_SpecAuto extends LinearOpMode {
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(58, -45)) //strafe up field
                 .strafeToLinearHeading(new Vector2d(-4,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(-4, -38))
+                .strafeTo(new Vector2d(-4, -33))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goBackAndPark = goToSubThirdSpec.fresh()
                 .waitSeconds(0.3)
