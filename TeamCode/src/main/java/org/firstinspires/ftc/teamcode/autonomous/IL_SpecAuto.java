@@ -232,24 +232,24 @@ public class IL_SpecAuto extends LinearOpMode {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
                 .waitSeconds(0.001)
-                .strafeTo(new Vector2d(43, -40)) // go to the right
-                .strafeTo(new Vector2d(43, -10))
-                .splineTo(new Vector2d(53, -10), Math.toRadians(270))
-                .strafeTo(new Vector2d(53, -57))
-                .strafeTo(new Vector2d(53, -3))
+                .strafeTo(new Vector2d(45, -40)) // go to the right
+                .strafeTo(new Vector2d(45, -20))
+                .splineTo(new Vector2d(57, -20), Math.toRadians(270))
+                .strafeTo(new Vector2d(57, -57))
+                .strafeTo(new Vector2d(57, -19.7))
                 .waitSeconds(0.5)
-                .strafeTo(new Vector2d(62,-3))
-                .strafeTo(new Vector2d(62,-58))
-                .strafeTo(new Vector2d(58,-63.5))
+                .strafeTo(new Vector2d(67,-20))
+                .strafeTo(new Vector2d(67,-58))
+                .strafeTo(new Vector2d(58,-62.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
-                .waitSeconds(0.2)
+                .waitSeconds(0.5)
                 .strafeTo(new Vector2d(53, -45)) //strafe up field
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
                 .waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(2, -33))
+                .strafeTo(new Vector2d(2, -30))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBackToPutSlidesDownThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
@@ -268,7 +268,7 @@ public class IL_SpecAuto extends LinearOpMode {
         TrajectoryActionBuilder goToSubThirdSpec = driveOutOfZoneThirdSpec.fresh()
                 .waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(-4,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(-4, -33))
+                .strafeTo(new Vector2d(-4, -27))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goBackAndPark = goToSubThirdSpec.fresh()
                 .waitSeconds(1)
@@ -299,6 +299,7 @@ public class IL_SpecAuto extends LinearOpMode {
                 driveBackAction, //drive back to put slides fully down
                 slides.slidesToSpecPickup(), //brings slides to pos 0 (fully down)
                 push2SamplesGrabSpecAction, //pushes sample into player person zone, then grabs spec
+                new SleepAction(0.5), //wait for player person
                 specClaw.closeClaw(), // Hold onto Spec
                 slides.slidesToSlightlyAboveWall(), //brings slides slightly above wall to reduce belt slip and let drivetrain drive back
                 driveOutOfZoneSecondSpecAction, //drive out of zone to put slides up
@@ -309,6 +310,7 @@ public class IL_SpecAuto extends LinearOpMode {
                 driveBackToPutSlidesDownThirdSpecAction, //drive back to put slides down
                 slides.slidesToSpecPickup(), //brings slides to pos 0 (fully down)
                 goToZoneThirdSpecAction, //go to zone to get third spec
+                new SleepAction(0.5), //wait for player person
                 specClaw.closeClaw(), //close claw to hold onto 3rd spec
                 slides.slidesToSlightlyAboveWall(), //brings slides slightly above wall to reduce belt slip and let drivetrain drive back
                 driveOutOfZoneThirdSpecAction, //drive out of zone to bring slides up

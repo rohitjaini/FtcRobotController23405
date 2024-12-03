@@ -34,15 +34,15 @@ public class MeepMeep2 {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
                 .waitSeconds(0.001)
-                .strafeTo(new Vector2d(43, -40)) // go to the right
-                .strafeTo(new Vector2d(43, -10))
-                .splineTo(new Vector2d(53, -10), Math.toRadians(270))
-                .strafeTo(new Vector2d(53, -57))
-                .strafeTo(new Vector2d(53, -3))
+                .strafeTo(new Vector2d(45, -40)) // go to the right
+                .strafeTo(new Vector2d(45, -20))
+                .splineTo(new Vector2d(57, -20), Math.toRadians(270))
+                .strafeTo(new Vector2d(57, -57))
+                .strafeTo(new Vector2d(57, -20))
                 .waitSeconds(0.5)
-                .strafeTo(new Vector2d(62,-3))
-                .strafeTo(new Vector2d(62,-58))
-                .strafeTo(new Vector2d(58,-63.5))
+                .strafeTo(new Vector2d(67,-20))
+                .strafeTo(new Vector2d(67,-58))
+                .strafeTo(new Vector2d(58,-62.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
                 .waitSeconds(0.2)
