@@ -249,7 +249,7 @@ public class IL_SpecAuto extends LinearOpMode {
         TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
                 .waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(2, -30))
+                .strafeTo(new Vector2d(2, -24))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBackToPutSlidesDownThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
@@ -268,12 +268,12 @@ public class IL_SpecAuto extends LinearOpMode {
         TrajectoryActionBuilder goToSubThirdSpec = driveOutOfZoneThirdSpec.fresh()
                 .waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(-4,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(-4, -27))
+                .strafeTo(new Vector2d(-4, -21))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goBackAndPark = goToSubThirdSpec.fresh()
                 .waitSeconds(1)
                 .strafeTo(new Vector2d(-4, -45))
-                .strafeToLinearHeading(new Vector2d(55,-60), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(55,-57), Math.toRadians(90))
                 .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
@@ -315,7 +315,7 @@ public class IL_SpecAuto extends LinearOpMode {
                 slides.slidesToSlightlyAboveWall(), //brings slides slightly above wall to reduce belt slip and let drivetrain drive back
                 driveOutOfZoneThirdSpecAction, //drive out of zone to bring slides up
                 slides.slidesToAboveBar(), //bring slides up to Spec Position
-                goToSubThirdSpecAction, // go clip third spec
+                goToSubThirdSpecAction,// go clip third spec
                 slides.slidesToBelowBar(), //clip on spec
                 specClaw.openClaw(), // Release the spec
                 goBackAndParkAction, //park in player person zone
