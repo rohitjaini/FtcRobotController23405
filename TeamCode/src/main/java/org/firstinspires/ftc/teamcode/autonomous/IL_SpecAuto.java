@@ -30,7 +30,7 @@ public class IL_SpecAuto extends LinearOpMode {
     public static double SPEC_CLAW_CLOSE = 0.3;
     public static double SPEC_CLAW_OPEN = 0.9;
     public static int INTAKE_ARM_UP = 10;
-    public static int INTAKE_ARM_DOWN = 250;
+    public static int INTAKE_ARM_DOWN = 523;
     public static double SLIDE_MAX_SPEED = 0.9;
     public static double ARM_MAX_SPEED = 0.5;
     public static double WRIST_SERVO_DOWN = 0.05;
@@ -148,7 +148,7 @@ public class IL_SpecAuto extends LinearOpMode {
             DcMotorEx intakeArmMotor = hardwareMap.get(DcMotorEx.class, "intakeArmMotor");
             intakeArmMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
             double armTicksInDegrees = 1425.1 / 360.0;
-            armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.13, 0.001, 0.4, armTicksInDegrees, ARM_MAX_SPEED, ARM_INITIAL_ANGLE);
+            armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.32, 0.0005, 0.4, armTicksInDegrees, ARM_MAX_SPEED, ARM_INITIAL_ANGLE);
             armController.resetMotorEncoder();
         }
 

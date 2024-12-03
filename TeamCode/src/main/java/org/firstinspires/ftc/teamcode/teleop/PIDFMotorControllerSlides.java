@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-public class PIDFMotorController {
+public class PIDFMotorControllerSlides {
 
     private final PIDController pidController;
     private final DcMotorEx motor;
@@ -15,17 +15,16 @@ public class PIDFMotorController {
     private final int initialPositionForFF;
     private Integer targetPosition = null;
 
-    public PIDFMotorController(DcMotorEx motor, double p, double i, double d, double f, double ticksInDegrees, double maxSpeed) {
+    public PIDFMotorControllerSlides(DcMotorEx motor, double p, double i, double d, double f, double ticksInDegrees, double maxSpeed) {
         this.motor = motor;
         this.f = f;
         this.ticksInDegrees = ticksInDegrees;
         this.maxSpeed = maxSpeed;
         this.initialPositionForFF = 0;
-
         this.pidController = new PIDController(p, i, d);
     }
 
-    public PIDFMotorController(DcMotorEx motor, double p, double i, double d, double f, double ticksInDegrees, double maxSpeed, int initialPositionForFF) {
+    public PIDFMotorControllerSlides(DcMotorEx motor, double p, double i, double d, double f, double ticksInDegrees, double maxSpeed, int initialPositionForFF) {
         this.motor = motor;
         this.f = f;
         this.ticksInDegrees = ticksInDegrees;

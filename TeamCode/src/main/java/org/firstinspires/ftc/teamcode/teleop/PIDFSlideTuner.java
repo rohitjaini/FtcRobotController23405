@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Config
 @TeleOp
@@ -30,6 +31,7 @@ public class PIDFSlideTuner extends OpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         rightSlideMotor = hardwareMap.get(DcMotorEx.class, "rightSlideMotor");
+        rightSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
