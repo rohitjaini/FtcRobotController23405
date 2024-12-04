@@ -30,7 +30,7 @@ public class CORobotCode_IL extends LinearOpMode {
     public static int SLIDE_SPEC_BAR_POSITION = 2250;
     public static int SLIDE_SPEC_CLIP_POSITION = 1750;
     public static int SLIDE_SPEC_GRAB_POSITION = 0;
-    public static int ARM_GRAB_POSITION = 1110;
+    public static int ARM_GRAB_POSITION = 1140;
     public static int ARM_HOLD_POSITION = 400;
     public static int ARM_TRANSFER_POSITION = 560;
     public static int ARM_SUB_HOLD = 960;
