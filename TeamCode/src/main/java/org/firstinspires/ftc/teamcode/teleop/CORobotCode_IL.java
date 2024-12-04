@@ -30,10 +30,10 @@ public class CORobotCode_IL extends LinearOpMode {
     public static int SLIDE_SPEC_BAR_POSITION = 2250;
     public static int SLIDE_SPEC_CLIP_POSITION = 1750;
     public static int SLIDE_SPEC_GRAB_POSITION = 0;
-    public static int ARM_GRAB_POSITION = 570;
+    public static int ARM_GRAB_POSITION = 1110;
     public static int ARM_HOLD_POSITION = 400;
-    public static int ARM_TRANSFER_POSITION = 260;
-    public static int ARM_SUB_HOLD = 450;
+    public static int ARM_TRANSFER_POSITION = 560;
+    public static int ARM_SUB_HOLD = 960;
     public static double WRIST_TRANSFER_POSITION = 0.20;
     public static double WRIST_GRAB_POSITION = 0.6;
     public static double ARM_CLAW_FULL_OPEN = 0.45;
@@ -44,7 +44,7 @@ public class CORobotCode_IL extends LinearOpMode {
     public static double BUCKET_DEPOSIT_POSITION = 0.78;
     public static double BUCKET_TRANSFER_POSITION = 0.1;
     private PIDFMotorController armController;
-    private PIDFMotorController slideController;
+    private PIDFMotorControllerSlides slideController;
 
     // Define hardware components
     private DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
@@ -105,12 +105,12 @@ public class CORobotCode_IL extends LinearOpMode {
         bucketServo = hardwareMap.get(Servo.class, "bucketServo");
         clawIntake = hardwareMap.get(Servo.class, "clawIntake");
 
-        double armTicksInDegrees = 1425.1 / 360.0;
+        double armTicksInDegrees = 537.7 / 360.0;
         double slideTicksInDegrees = 537.7 / 360.0;
 
         // Initialize PIDF controllers for the arm and slide
-        armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.13, 0.001, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
-        slideController = new PIDFMotorController(rightSlideMotor, 0.01, 0.25, 0.001, 0, slideTicksInDegrees, MAX_SLIDE_POWER_UP);
+        armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.32, 0.0005, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
+        slideController = new PIDFMotorControllerSlides(rightSlideMotor, 0.01, 0.25, 0.001, 0, slideTicksInDegrees, MAX_SLIDE_POWER_UP);
 
         // Set directions for drivetrain motors
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -194,7 +194,7 @@ public class CORobotCode_IL extends LinearOpMode {
             clawIntake.setPosition(ARM_CLAW_FULL_OPEN);
         } else if (gamepad1.b){
             armController.setTargetPosition(ARM_HOLD_POSITION);
-            rightWristServo.setPosition(WRIST_TRANSFER_POSITION);
+            rightWristServo.setPosition(WRIST_GRAB_POSITION);
         } else if (gamepad1.y){
             armController.setTargetPosition(ARM_TRANSFER_POSITION);
             rightWristServo.setPosition(WRIST_TRANSFER_POSITION);
@@ -234,7 +234,7 @@ public class CORobotCode_IL extends LinearOpMode {
     }
     private void runPIDIterations() {
         PIDFMotorController.MotorData armMotorData = armController.runIteration();
-        PIDFMotorController.MotorData slideMotorData = slideController.runIteration();
+        PIDFMotorControllerSlides.MotorData slideMotorData = slideController.runIteration();
         telemetry.addData("Arm Position", armMotorData.CurrentPosition);
         telemetry.addData("Arm Target", armMotorData.TargetPosition);
         telemetry.addData("Arm Power", armMotorData.SetPower);
