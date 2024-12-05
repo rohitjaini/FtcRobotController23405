@@ -219,10 +219,10 @@ public class CORobotCode_IL extends LinearOpMode {
         }
     }
     private void specClawControl(){
-        if (gamepad2.b) {
+        if (gamepad2.x) {
             specServo.setPosition(SPEC_CLAW_CLOSE); //close spec claw
         }
-        if (gamepad2.x) {
+        if (gamepad2.b) {
             specServo.setPosition(SPEC_CLAW_OPEN); //open spec claw
         }
     }
