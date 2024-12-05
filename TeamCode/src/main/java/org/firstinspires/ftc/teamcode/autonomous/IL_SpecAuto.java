@@ -224,42 +224,37 @@ public class IL_SpecAuto extends LinearOpMode {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
                 .waitSeconds(1.5)
-                .strafeTo(new Vector2d(0, -33))
+                .strafeTo(new Vector2d(0, -25))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
                 .waitSeconds(0.3)
                 .strafeTo(new Vector2d(0, -40))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
+        TrajectoryActionBuilder pushSampleGrabSpec = driveBack.fresh()
                 .waitSeconds(0.001)
                 .strafeTo(new Vector2d(45, -40)) // go to the right
                 .strafeTo(new Vector2d(45, -20))
-                .splineTo(new Vector2d(57, -20), Math.toRadians(270))
-                .strafeTo(new Vector2d(57, -57))
-                .strafeTo(new Vector2d(57, -19.7))
-                .waitSeconds(0.5)
-                .strafeTo(new Vector2d(67,-20))
-                .strafeTo(new Vector2d(67,-58))
-                .strafeTo(new Vector2d(58,-62.5))
+                .splineTo(new Vector2d(50, -20), Math.toRadians(270))
+                .strafeTo(new Vector2d(50, -66.5))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
+        TrajectoryActionBuilder driveOutOfZoneSecondSpec = pushSampleGrabSpec.fresh()
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(53, -45)) //strafe up field
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
                 .waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(2, -24))
+                .strafeTo(new Vector2d(0, -21))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBackToPutSlidesDownThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
                 .waitSeconds(0.3)
-                .strafeTo(new Vector2d(2,-35))
+                .strafeTo(new Vector2d(0,-35))
                 .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneThirdSpec = driveBackToPutSlidesDownThirdSpec.fresh()
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(58,-63.5))
+                .strafeTo(new Vector2d(58,-66.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneThirdSpec = goToZoneThirdSpec.fresh()
                 .waitSeconds(0.5)
@@ -267,19 +262,20 @@ public class IL_SpecAuto extends LinearOpMode {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubThirdSpec = driveOutOfZoneThirdSpec.fresh()
                 .waitSeconds(0.3)
-                .strafeToLinearHeading(new Vector2d(-4,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(-4, -21))
+                .strafeToLinearHeading(new Vector2d(-10,-45), Math.toRadians(270)) //change heading
+                .strafeTo(new Vector2d(-10, -21))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goBackAndPark = goToSubThirdSpec.fresh()
                 .waitSeconds(1)
-                .strafeTo(new Vector2d(-4, -45))
-                .strafeToLinearHeading(new Vector2d(55,-57), Math.toRadians(90))
+                .strafeTo(new Vector2d(-10, -45))
+                .strafeToLinearHeading(new Vector2d(47,-63), Math.toRadians(90))
+                .strafeTo(new Vector2d(47,-70))
                 .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
         Action moveIntoSpec1PositionAction = moveIntoSpec1Position.build();
         Action driveBackAction = driveBack.build();
-        Action push2SamplesGrabSpecAction = push2SamplesGrabSpec.build();
+        Action pushSampleGrabSpecAction = pushSampleGrabSpec.build();
         Action driveOutOfZoneSecondSpecAction = driveOutOfZoneSecondSpec.build();
         Action goToSubSecondSpecAction = goToSubSecondSpec.build();
         Action driveBackToPutSlidesDownThirdSpecAction = driveBackToPutSlidesDownThirdSpec.build();
@@ -298,7 +294,7 @@ public class IL_SpecAuto extends LinearOpMode {
                 specClaw.openClaw(), // Release the spec
                 driveBackAction, //drive back to put slides fully down
                 slides.slidesToSpecPickup(), //brings slides to pos 0 (fully down)
-                push2SamplesGrabSpecAction, //pushes sample into player person zone, then grabs spec
+                pushSampleGrabSpecAction, //pushes sample into player person zone, then grabs spec
                 new SleepAction(0.5), //wait for player person
                 specClaw.closeClaw(), // Hold onto Spec
                 slides.slidesToSlightlyAboveWall(), //brings slides slightly above wall to reduce belt slip and let drivetrain drive back

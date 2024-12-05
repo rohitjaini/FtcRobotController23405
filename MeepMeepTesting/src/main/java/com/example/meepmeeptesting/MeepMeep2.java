@@ -32,26 +32,21 @@ public class MeepMeep2 {
                 .waitSeconds(0.3)
                 .strafeTo(new Vector2d(0, -40))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
+        TrajectoryActionBuilder pushSampleGrabSpec = driveBack.fresh()
                 .waitSeconds(0.001)
                 .strafeTo(new Vector2d(45, -40)) // go to the right
                 .strafeTo(new Vector2d(45, -20))
                 .splineTo(new Vector2d(57, -20), Math.toRadians(270))
-                .strafeTo(new Vector2d(57, -57))
-                .strafeTo(new Vector2d(57, -20))
-                .waitSeconds(0.5)
-                .strafeTo(new Vector2d(67,-20))
-                .strafeTo(new Vector2d(67,-58))
-                .strafeTo(new Vector2d(58,-62.5))
+                .strafeTo(new Vector2d(57, -63.5))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
-                .waitSeconds(0.2)
+        TrajectoryActionBuilder driveOutOfZoneSecondSpec = pushSampleGrabSpec.fresh()
+                .waitSeconds(0.5)
                 .strafeTo(new Vector2d(53, -45)) //strafe up field
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
                 .waitSeconds(0.2)
                 .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(2, -33))
+                .strafeTo(new Vector2d(2, -24))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBackToPutSlidesDownThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
@@ -70,18 +65,18 @@ public class MeepMeep2 {
         TrajectoryActionBuilder goToSubThirdSpec = driveOutOfZoneThirdSpec.fresh()
                 .waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(-4,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(-4, -33))
+                .strafeTo(new Vector2d(-4, -21))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goBackAndPark = goToSubThirdSpec.fresh()
                 .waitSeconds(1)
                 .strafeTo(new Vector2d(-4, -45))
-                .strafeToLinearHeading(new Vector2d(55,-60), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(55,-57), Math.toRadians(90))
                 .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
         Action moveIntoSpec1PositionAction = moveIntoSpec1Position.build();
         Action driveBackAction = driveBack.build();
-        Action push2SamplesGrabSpecAction = push2SamplesGrabSpec.build();
+        Action pushSampleGrabSpecAction = pushSampleGrabSpec.build();
         Action driveOutOfZoneSecondSpecAction = driveOutOfZoneSecondSpec.build();
         Action goToSubSecondSpecAction = goToSubSecondSpec.build();
         Action driveBackToPutSlidesDownThirdSpecAction = driveBackToPutSlidesDownThirdSpec.build();
@@ -94,7 +89,7 @@ public class MeepMeep2 {
                 moveAwayFromBarrierAction, // Move away from the barrier
                 moveIntoSpec1PositionAction, // Move into position to place the first spec
                 driveBackAction, //drive back to put slides fully down
-                push2SamplesGrabSpecAction, //pushes sample into player person zone, then grabs spec
+                pushSampleGrabSpecAction, //pushes sample into player person zone, then grabs spec
                 driveOutOfZoneSecondSpecAction, //drive out of zone to put slides up
                 goToSubSecondSpecAction, //go to sub to clip second spec
                 driveBackToPutSlidesDownThirdSpecAction, //drive back to put slides down
