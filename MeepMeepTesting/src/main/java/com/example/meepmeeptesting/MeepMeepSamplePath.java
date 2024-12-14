@@ -36,17 +36,43 @@ public class MeepMeepSamplePath {
                 .waitSeconds(2)
                 .splineToConstantHeading(new Vector2d(-56,-58), Math.PI)
                 .waitSeconds(0.001);
+        TrajectoryActionBuilder intakeThirdSample = secondSampleDeposit.fresh()
+                .waitSeconds(2)
+                .strafeTo(new Vector2d(-58,-37))
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder thirdSampleDeposit = intakeThirdSample.fresh()
+                .waitSeconds(2)
+                .splineToConstantHeading(new Vector2d(-56,-58), Math.PI)
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder strafeForward = thirdSampleDeposit.fresh()
+                .waitSeconds(2)
+                .strafeTo(new Vector2d(-41,-14))
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder touchBar = strafeForward.fresh()
+                .waitSeconds(0.001)
+                .strafeToLinearHeading((new Vector2d(-20,-8)), Math.toRadians(0))
+                .strafeTo(new Vector2d(-20,-8))
+                .waitSeconds(0.001);
+
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
         Action firstSampleDepositAction = firstSampleDeposit.build();
         Action intakeSecondSampleAction = intakeSecondSample.build();
         Action secondSampleDepositAction = secondSampleDeposit.build();
+        Action intakeThirdSampleAction = intakeThirdSample.build();
+        Action thirdSampleDepositAction = thirdSampleDeposit.build();
+        Action strafeForwardAction = strafeForward.build();
+        Action touchBarAction = touchBar.build();
 
         Action autoSequence = new SequentialAction(
                 moveAwayFromBarrierAction, // Move away from the barrier
                 firstSampleDepositAction,
                 intakeSecondSampleAction,
-                secondSampleDepositAction
+                secondSampleDepositAction,
+                intakeThirdSampleAction,
+                thirdSampleDepositAction,
+                strafeForwardAction,
+                touchBarAction
         );
 
         myBot.runAction(autoSequence);
