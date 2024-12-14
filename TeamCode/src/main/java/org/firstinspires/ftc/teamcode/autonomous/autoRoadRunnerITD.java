@@ -90,7 +90,7 @@ public class autoRoadRunnerITD extends LinearOpMode {
         public Slides(HardwareMap hardwareMap) {
             DcMotorEx rightSlideMotor = hardwareMap.get(DcMotorEx.class, "rightSlideMotor");
             rightSlideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-            double slideTicksInDegrees = 537.7 / 360.0;
+            double slideTicksInDegrees = 384.5 / 360.0;
             slideController = new PIDFMotorController(rightSlideMotor, 0.01, 0.25, 0.001, 0, slideTicksInDegrees, SLIDE_MAX_SPEED);
             slideController.resetMotorEncoder();
         }

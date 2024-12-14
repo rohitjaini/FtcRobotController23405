@@ -107,7 +107,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
         clawIntake = hardwareMap.get(Servo.class, "clawIntake");
 
         double armTicksInDegrees = 537.7 / 360.0;
-        double slideTicksInDegrees = 537.7 / 360.0;
+        double slideTicksInDegrees = 384.5 / 360.0;
 
         // Initialize PIDF controllers for the arm and slide
         armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.32, 0.0005, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
