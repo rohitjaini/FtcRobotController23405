@@ -31,7 +31,6 @@ public class PIDFSlideTuner extends OpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         rightSlideMotor = hardwareMap.get(DcMotorEx.class, "rightSlideMotor");
-        rightSlideMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override

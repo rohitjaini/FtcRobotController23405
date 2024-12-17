@@ -24,18 +24,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class CORobotCode_Semis extends LinearOpMode {
 
     public static double MAX_ARM_POWER = 0.7;
-    public static int ARM_INITIAL_ANGLE = 50; //deg
+    public static int ARM_INITIAL_ANGLE = 90; //deg
     public static double MAX_SLIDE_POWER_UP = 1;
     public static double MAX_SLIDE_POWER_DOWN = 0.8;
-    public static int SLIDE_DEPOSIT_POSITION = 4000;
-    public static int SLIDE_SPEC_BAR_POSITION = 2250;
-    public static int SLIDE_SPEC_CLIP_POSITION = 1750;
+    public static int SLIDE_DEPOSIT_POSITION = 2600;
+    public static int SLIDE_SPEC_BAR_POSITION = 1400;
+    public static int SLIDE_SPEC_CLIP_POSITION = 950;
     public static int SLIDE_SPEC_GRAB_POSITION = 0;
-    public static int ARM_GRAB_POSITION = 1110;
-    public static int ARM_GRAB_LOWER_POSITION = 1130;
-    public static int ARM_HOLD_POSITION = 400;
+    public static int ARM_GRAB_POSITION = 910;
+    public static int ARM_GRAB_LOWER_POSITION = 930;
+    public static int ARM_HOLD_POSITION = 160;
     public static int ARM_TRANSFER_POSITION = 560;
-    public static int ARM_SUB_HOLD = 960;
+    public static int ARM_SUB_HOLD = 850;
     public static double WRIST_TRANSFER_POSITION = 0.20;
     public static double WRIST_GRAB_POSITION = 0.62;
     public static double ARM_CLAW_FULL_OPEN = 0.45;
@@ -114,7 +114,7 @@ public class CORobotCode_Semis extends LinearOpMode {
 
         // Initialize PIDF controllers for the arm and slide
         armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.32, 0.0005, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
-        slideController = new PIDFMotorControllerSlides(rightSlideMotor, 0.01, 0.25, 0.001, 0, slideTicksInDegrees, MAX_SLIDE_POWER_UP);
+        slideController = new PIDFMotorControllerSlides(rightSlideMotor, 0.01, 0.6, 0.001, 0, slideTicksInDegrees, MAX_SLIDE_POWER_UP);
 
         // Set directions for drivetrain motors
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);

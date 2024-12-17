@@ -23,18 +23,18 @@ import org.firstinspires.ftc.teamcode.teleop.PIDFMotorController;
 @Autonomous
 public class IL_SpecAuto extends LinearOpMode {
     public static boolean USER_INPUT_FLAG = false;
-    public static int SLIDES_ABOVE_BAR = 1900;
-    public static int SLIDES_BELOW_BAR = 1270;
+    public static int SLIDES_ABOVE_BAR = 1400;
+    public static int SLIDES_BELOW_BAR = 950;
     public static int SLIDES_SPEC_PICKUP = 0;
-    public static int SLIDES_SLIGHTLY_ABOVE_WALL = 300;
+    public static int SLIDES_SLIGHTLY_ABOVE_WALL = 100;
     public static double SPEC_CLAW_CLOSE = 0.3;
     public static double SPEC_CLAW_OPEN = 0.9;
     public static int INTAKE_ARM_UP = 10;
-    public static int INTAKE_ARM_DOWN = 523;
+    public static int INTAKE_ARM_DOWN = 50;
     public static double SLIDE_MAX_SPEED = 0.9;
     public static double ARM_MAX_SPEED = 0.5;
     public static double WRIST_SERVO_DOWN = 0.05;
-    public static int ARM_INITIAL_ANGLE = 50; //deg
+    public static int ARM_INITIAL_ANGLE = 90; //deg
 
     public static class SpecClaw {
         private final Servo specServo;
@@ -92,7 +92,7 @@ public class IL_SpecAuto extends LinearOpMode {
             DcMotorEx rightSlideMotor = hardwareMap.get(DcMotorEx.class, "rightSlideMotor");
             rightSlideMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
             double slideTicksInDegrees = 384.5 / 360.0;
-            slideController = new PIDFMotorController(rightSlideMotor, 0.01, 0.25, 0.001, 0, slideTicksInDegrees, SLIDE_MAX_SPEED);
+            slideController = new PIDFMotorController(rightSlideMotor, 0.01, 0.6, 0.001, 0, slideTicksInDegrees, SLIDE_MAX_SPEED);
             slideController.resetMotorEncoder();
         }
 
