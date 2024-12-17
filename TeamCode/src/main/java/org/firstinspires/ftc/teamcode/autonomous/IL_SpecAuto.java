@@ -16,7 +16,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.teamcode.teleop.MecanumDrive;
+
+import org.firstinspires.ftc.teamcode.PinpointDrive;
 import org.firstinspires.ftc.teamcode.teleop.PIDFMotorController;
 
 @Config
@@ -212,7 +213,7 @@ public class IL_SpecAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Pose2d beginPose = new Pose2d(13, -61.5, Math.toRadians(270));
-        MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
+        PinpointDrive drive = new PinpointDrive(hardwareMap, beginPose);
         SpecClaw specClaw = new SpecClaw(hardwareMap);
         Slides slides = new Slides(hardwareMap);
         IntakeArm intakeArm = new IntakeArm(hardwareMap);
