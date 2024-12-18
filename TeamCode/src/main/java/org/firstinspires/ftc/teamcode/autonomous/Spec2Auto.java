@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.teleop.PIDFMotorController;
 
 @Config
 @Autonomous
-public class autoRoadRunnerITD extends LinearOpMode {
+public class Spec2Auto extends LinearOpMode {
     public static boolean USER_INPUT_FLAG = false;
     public static int SLIDES_ABOVE_BAR = 1400;
     public static int SLIDES_BELOW_BAR = 950;
