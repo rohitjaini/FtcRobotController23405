@@ -67,8 +67,8 @@ public class MeepMeep_4_Spec {
                 .waitSeconds(0.3);
         TrajectoryActionBuilder goToZoneFourthSpec = goToSubThirdSpec.fresh()
                 .waitSeconds(0.001)
-                .strafeTo(new Vector2d(1,-35))
                 .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
+                .waitSeconds(1)
                 .strafeTo(new Vector2d(58,-63.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubFourthSpec = goToZoneFourthSpec.fresh()
@@ -81,7 +81,7 @@ public class MeepMeep_4_Spec {
         TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
                 .waitSeconds(0.3)
                 .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(55,-58), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(38,-56), Math.toRadians(90))
                 .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
