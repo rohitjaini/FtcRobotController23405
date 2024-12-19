@@ -239,9 +239,9 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .strafeTo(new Vector2d(45, -61))
                 .strafeTo(new Vector2d(45,-20))
                 .splineToConstantHeading(new Vector2d(57,-20), Math.toRadians(270))
-                .strafeTo(new Vector2d(57,-55))
-                .strafeTo(new Vector2d(60,-55))
-                .strafeTo(new Vector2d(60,-61))
+                .strafeTo(new Vector2d(57,-60))
+                .strafeTo(new Vector2d(57,-40))
+                .strafeTo(new Vector2d(57,-61.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
                 .waitSeconds(0.5)
@@ -260,7 +260,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneThirdSpec = driveBackToPutSlidesDownThirdSpec.fresh()
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(58,-61))
+                .strafeTo(new Vector2d(58,-61.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneThirdSpec = goToZoneThirdSpec.fresh()
                 .waitSeconds(0.5)
@@ -279,7 +279,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneFourthSpec = driveBackToPutSlidesDownFourthSpec.fresh()
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(58,-61))
+                .strafeTo(new Vector2d(58,-61.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneFourthSpec = goToZoneFourthSpec.fresh()
                 .waitSeconds(0.5)
