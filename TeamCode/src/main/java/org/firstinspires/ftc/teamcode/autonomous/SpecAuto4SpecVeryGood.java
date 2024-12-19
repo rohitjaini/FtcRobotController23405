@@ -18,7 +18,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.PinpointDrive;
-import org.firstinspires.ftc.teamcode.teleop.MecanumDrive;
 import org.firstinspires.ftc.teamcode.teleop.PIDFMotorController;
 
 @Config
@@ -28,6 +27,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
     public static int SLIDES_ABOVE_BAR = 1400;
     public static int SLIDES_BELOW_BAR = 950;
     public static int SLIDES_SPEC_PICKUP = 0;
+    public static int SLIDES_SLIGHTLY_ABOVE_WALL = 100;
     public static double SPEC_CLAW_CLOSE = 0.3;
     public static double SPEC_CLAW_OPEN = 0.9;
     public static int INTAKE_ARM_UP = 10;
@@ -138,6 +138,8 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
         public Action slidesToSpecPickup() {
             return new MoveSlidesAction(SLIDES_SPEC_PICKUP);
         }
+
+        public Action slidesToSlightlyAboveWall(){return  new MoveSlidesAction(SLIDES_SLIGHTLY_ABOVE_WALL);}
     }
 
     public static class IntakeArm {
@@ -147,7 +149,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
             DcMotorEx intakeArmMotor = hardwareMap.get(DcMotorEx.class, "intakeArmMotor");
             intakeArmMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
             double armTicksInDegrees = 1425.1 / 360.0;
-            armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.13, 0.001, 0.4, armTicksInDegrees, ARM_MAX_SPEED, ARM_INITIAL_ANGLE);
+            armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.32, 0.0005, 0.4, armTicksInDegrees, ARM_MAX_SPEED, ARM_INITIAL_ANGLE);
             armController.resetMotorEncoder();
         }
 
@@ -196,7 +198,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
             if(USER_INPUT_FLAG){
                 USER_INPUT_FLAG = false;
                 packet.put("Waiting For User", false);
-                return false;
+                return true;
             }
             packet.put("Waiting For User", true);
             USER_INPUT_FLAG = false;
@@ -210,7 +212,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d beginPose = new Pose2d(13, -61.5, Math.toRadians(270));
+        Pose2d beginPose = new Pose2d(15, -61.5, Math.toRadians(270));
         PinpointDrive drive = new PinpointDrive(hardwareMap, beginPose);
         SpecClaw specClaw = new SpecClaw(hardwareMap);
         Slides slides = new Slides(hardwareMap);
@@ -219,113 +221,141 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
 
 
         TrajectoryActionBuilder moveAwayFromBarrier = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(13, -50))
+                .strafeTo(new Vector2d(15, -50))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
                 .waitSeconds(1.5)
-                .strafeTo(new Vector2d(0, -25))
+                .strafeTo(new Vector2d(0, -33))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
-                .waitSeconds(0.001)
-                .strafeTo(new Vector2d(0, -37))
+                .waitSeconds(0.3)
+                .strafeTo(new Vector2d(0, -40))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder push3SamplesGrabSpec = driveBack.fresh()
+        TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
                 .waitSeconds(0.001)
-                .strafeTo(new Vector2d(43, -37)) // go to the right
-                .strafeTo(new Vector2d(43, -10))
-                .splineTo(new Vector2d(53, -10), Math.toRadians(270))
-                .strafeTo(new Vector2d(53, -57))
-                .strafeTo(new Vector2d(53, -3))
-                .waitSeconds(0.5)
-                .strafeTo(new Vector2d(60,-3))
-                .strafeTo(new Vector2d(60,-58))
-                .strafeTo(new Vector2d(60,-3))
-                .strafeTo(new Vector2d(67,-3))
-                .strafeTo(new Vector2d(67,-60))
-                .strafeTo(new Vector2d(58,-60))
-                .strafeTo(new Vector2d(58,-63.5))
+                .strafeTo(new Vector2d(37, -40)) // go to the right
+                .strafeTo(new Vector2d(37, -20))
+                .splineTo(new Vector2d(45, -20), Math.toRadians(270))
+                .strafeTo(new Vector2d(45, -61))
+                .strafeTo(new Vector2d(45,-20))
+                .splineToConstantHeading(new Vector2d(57,-20), Math.toRadians(270))
+                .strafeTo(new Vector2d(57,-55))
+                .strafeTo(new Vector2d(60,-55))
+                .strafeTo(new Vector2d(60,-61))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder goToSubSecondSpec = push3SamplesGrabSpec.fresh()
+        TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(53, -45)) //strafe up field
-                .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(2, -25))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder goToZoneThirdSpec = goToSubSecondSpec.fresh()
+        TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
+                .waitSeconds(0.2)
+                .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
+                .strafeTo(new Vector2d(2, -33))
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder driveBackToPutSlidesDownThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
                 .waitSeconds(0.3)
                 .strafeTo(new Vector2d(2,-35))
                 .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
-                .strafeTo(new Vector2d(58,-63.5))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder goToSubThirdSpec = goToZoneThirdSpec.fresh()
+        TrajectoryActionBuilder goToZoneThirdSpec = driveBackToPutSlidesDownThirdSpec.fresh()
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(58,-61))
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder driveOutOfZoneThirdSpec = goToZoneThirdSpec.fresh()
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(58, -45)) //strafe up field
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder goToSubThirdSpec = driveOutOfZoneThirdSpec.fresh()
+                .waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(-4,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(-4, -25))
+                .strafeTo(new Vector2d(-4, -33))
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder driveBackToPutSlidesDownFourthSpec = goToSubThirdSpec.fresh()
                 .waitSeconds(0.001)
-                .waitSeconds(0.3);
-        TrajectoryActionBuilder goToZoneFourthSpec = goToSubThirdSpec.fresh()
-                .waitSeconds(0.001)
+                .waitSeconds(0.3)
                 .strafeTo(new Vector2d(-4,-35))
                 .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
-                .strafeTo(new Vector2d(58,-63.5))
                 .waitSeconds(0.001);
-        TrajectoryActionBuilder goToSubFourthSpec = goToZoneFourthSpec.fresh()
+        TrajectoryActionBuilder goToZoneFourthSpec = driveBackToPutSlidesDownFourthSpec.fresh()
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(58,-61))
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder driveOutOfZoneFourthSpec = goToZoneFourthSpec.fresh()
                 .waitSeconds(0.5)
                 .strafeTo(new Vector2d(58, -45)) //strafe up field
-                .strafeToLinearHeading(new Vector2d(-7,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(-7, -25))
-                .waitSeconds(0.001)
-                .waitSeconds(0.5);
-        TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder goToSubFourthSpec = driveOutOfZoneFourthSpec.fresh()
                 .waitSeconds(0.3)
+                .strafeToLinearHeading(new Vector2d(1,-45), Math.toRadians(270)) //change heading
+                .strafeTo(new Vector2d(1, -33))
+                .waitSeconds(0.001);
+        TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
                 .waitSeconds(1)
-                .strafeTo(new Vector2d(-4, -45))
-                .strafeToLinearHeading(new Vector2d(55,-58), Math.toRadians(90))
+                .strafeTo(new Vector2d(1, -45))
+                .strafeToLinearHeading(new Vector2d(55,-57), Math.toRadians(90))
                 .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
         Action moveIntoSpec1PositionAction = moveIntoSpec1Position.build();
         Action driveBackAction = driveBack.build();
-        Action push3SamplesGrabSpecAction = push3SamplesGrabSpec.build();
+        Action push2SamplesGrabSpecAction = push2SamplesGrabSpec.build();
+        Action driveOutOfZoneSecondSpecAction = driveOutOfZoneSecondSpec.build();
         Action goToSubSecondSpecAction = goToSubSecondSpec.build();
+        Action driveBackToPutSlidesDownThirdSpecAction = driveBackToPutSlidesDownThirdSpec.build();
         Action goToZoneThirdSpecAction = goToZoneThirdSpec.build();
+        Action driveOutOfZoneThirdSpecAction = driveOutOfZoneThirdSpec.build();
         Action goToSubThirdSpecAction = goToSubThirdSpec.build();
+        Action driveBackToPutSlidesDownFourthSpecAction = driveBackToPutSlidesDownFourthSpec.build();
         Action goToZoneFourthSpecAction = goToZoneFourthSpec.build();
+        Action driveOutOfZoneFourthSpecAction = driveOutOfZoneFourthSpec.build();
         Action goToSubFourthSpecAction = goToSubFourthSpec.build();
         Action goBackAndParkAction = goBackAndPark.build();
 
         Action autoSequence = new SequentialAction(
-                waitForUser(),
-                moveAwayFromBarrierAction, // Move away from the barrier
-                waitForUser(),
-                waitForUser(),
-                waitForUser(),
+                specClaw.closeClaw(),
+                moveAwayFromBarrierAction,// Move away from the barrier
+                intakeArm.intakeArmDown(),
+                slides.slidesToAboveBar(), // Move the slides to above the bar to prepare for the first spec
                 moveIntoSpec1PositionAction, // Move into position to place the first spec
-                waitForUser(),
-                waitForUser(),
-                waitForUser(),
+                slides.slidesToBelowBar(), // Clip the spec onto the bar
+                specClaw.openClaw(), // Release the spec
                 driveBackAction, //drive back to put slides fully down
-                waitForUser(),
-                waitForUser(),
-                push3SamplesGrabSpecAction, //pushes sample into player person zone, then grabs spec
-                waitForUser(),
-                waitForUser(),
-                waitForUser(),
-                goToSubSecondSpecAction,
-                goToZoneThirdSpecAction,
-                goToSubThirdSpecAction,
-                waitForUser(),
-                waitForUser(),
-                waitForUser(),
-                goToZoneFourthSpecAction,
-                goToSubFourthSpecAction,
+                slides.slidesToSpecPickup(), //brings slides to pos 0 (fully down)
+                push2SamplesGrabSpecAction, //pushes sample into player person zone, then grabs spec
+                new SleepAction(0.5), //wait for player person
+                specClaw.closeClaw(), // Hold onto Spec
+                slides.slidesToSlightlyAboveWall(), //brings slides slightly above wall to reduce belt slip and let drivetrain drive back
+                driveOutOfZoneSecondSpecAction, //drive out of zone to put slides up
+                slides.slidesToAboveBar(), //bring slides up to Spec Position
+                goToSubSecondSpecAction, //go to sub to clip second spec
+                slides.slidesToBelowBar(), //clip on spec
+                specClaw.openClaw(), // Release the spec
+                driveBackToPutSlidesDownThirdSpecAction, //drive back to put slides down
+                slides.slidesToSpecPickup(), //brings slides to pos 0 (fully down)
+                goToZoneThirdSpecAction, //go to zone to get third spec
+                new SleepAction(0.5), //wait for player person
+                specClaw.closeClaw(), //close claw to hold onto 3rd spec
+                slides.slidesToSlightlyAboveWall(), //brings slides slightly above wall to reduce belt slip and let drivetrain drive back
+                driveOutOfZoneThirdSpecAction, //drive out of zone to bring slides up
+                slides.slidesToAboveBar(), //bring slides up to Spec Position
+                goToSubThirdSpecAction,// go clip third spec
+                slides.slidesToBelowBar(), //clip on spec
+                specClaw.openClaw(), // Release the spec
+                driveBackToPutSlidesDownFourthSpecAction, //drive back to put slides down
+                slides.slidesToSpecPickup(), //brings slides to pos 0 (fully down)
+                goToZoneFourthSpecAction, //go to zone to get fourth spec
+                new SleepAction(0.5), //wait for player person
+                specClaw.closeClaw(), //close claw to hold onto 4th spec
+                slides.slidesToSlightlyAboveWall(), //brings slides slightly above wall to reduce belt slip and let drivetrain drive back
+                driveOutOfZoneFourthSpecAction, //drive out of zone to bring slides up
+                slides.slidesToAboveBar(), //bring slides up to Spec Position
+                goToSubFourthSpecAction,// go clip fourth spec
+                slides.slidesToBelowBar(), //clip on spec
+                specClaw.openClaw(), // Release the spec
                 goBackAndParkAction, //park in player person zone
-                waitForUser(),
-                waitForUser(),
-                new SleepAction(1), //wait for slides to come down
-                new SleepAction(0.5) //wait for servo to go in
+                slides.slidesToSpecPickup(), //brings slides to pos 0 (fully down)
+                new SleepAction(1) //wait for slides to come down
         );
         Action pidControlLoops = new ParallelAction(
                 slides.slidesPIDIteration(), //cycling through slides to hold PID
