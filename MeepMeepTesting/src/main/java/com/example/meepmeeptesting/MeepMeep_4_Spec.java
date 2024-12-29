@@ -16,7 +16,7 @@ public class MeepMeep_4_Spec {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(200, 90, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(140, 90, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
         Pose2d beginPose = new Pose2d(15, -61.5, Math.toRadians(270));
@@ -26,7 +26,7 @@ public class MeepMeep_4_Spec {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
                 .waitSeconds(1.5)
-                .strafeTo(new Vector2d(0, -32))
+                .strafeTo(new Vector2d(0, -33))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
                 .waitSeconds(0.3)
@@ -34,63 +34,67 @@ public class MeepMeep_4_Spec {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
                 .waitSeconds(0.001)
-                .strafeTo(new Vector2d(37, -40)) // go to the right
+                .strafeToLinearHeading(new Vector2d(37, -40), Math.toRadians(90)) // go to the right
                 .strafeTo(new Vector2d(37, -20))
-                .splineTo(new Vector2d(45, -20), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(45, -20), Math.toRadians(270))
                 .strafeTo(new Vector2d(45, -61))
                 .strafeTo(new Vector2d(45,-20))
-                .splineToConstantHeading(new Vector2d(57,-17), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(57,-20), Math.toRadians(270))
                 .strafeTo(new Vector2d(57,-60))
-                .strafeTo(new Vector2d(44,-61.5))
+                .strafeTo(new Vector2d(57,-40))
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(57,-61.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
                 .waitSeconds(0.5)
-                //strafe up field
+                .strafeTo(new Vector2d(53, -45)) //strafe up field
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
                 .waitSeconds(0.2)
-                .strafeToLinearHeading(new Vector2d(2,-34), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(2, -32))
+                .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
+                .strafeTo(new Vector2d(2, -33))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBackToPutSlidesDownThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
                 .waitSeconds(0.3)
                 .strafeTo(new Vector2d(2,-35))
-                .strafeToLinearHeading(new Vector2d(58,-61.5), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneThirdSpec = driveBackToPutSlidesDownThirdSpec.fresh()
                 .waitSeconds(0.2)
-
+                .strafeTo(new Vector2d(58,-61.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneThirdSpec = goToZoneThirdSpec.fresh()
                 .waitSeconds(0.5)
-                 //strafe up field
+                .strafeTo(new Vector2d(58, -45)) //strafe up field
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubThirdSpec = driveOutOfZoneThirdSpec.fresh()
                 .waitSeconds(0.3)
-                .strafeToLinearHeading(new Vector2d(5,-34), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(5, -32))
+                .strafeToLinearHeading(new Vector2d(-4,-45), Math.toRadians(270)) //change heading
+                .strafeTo(new Vector2d(-4, -33))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBackToPutSlidesDownFourthSpec = goToSubThirdSpec.fresh()
                 .waitSeconds(0.001)
                 .waitSeconds(0.3)
-                .strafeTo(new Vector2d(5,-35))
-                .strafeToLinearHeading(new Vector2d(58,-61.5), Math.toRadians(90))
+                .strafeTo(new Vector2d(-4,-35))
+                .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneFourthSpec = driveBackToPutSlidesDownFourthSpec.fresh()
                 .waitSeconds(0.2)
-
+                .strafeTo(new Vector2d(58,-61.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneFourthSpec = goToZoneFourthSpec.fresh()
                 .waitSeconds(0.5)
+                .strafeTo(new Vector2d(58, -45)) //strafe up field
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubFourthSpec = driveOutOfZoneFourthSpec.fresh()
                 .waitSeconds(0.3)
-                .strafeToLinearHeading(new Vector2d(0,-35), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(0, -33))
+                .strafeToLinearHeading(new Vector2d(1,-45), Math.toRadians(270)) //change heading
+                .strafeTo(new Vector2d(1, -33))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
                 .waitSeconds(1)
+                .strafeTo(new Vector2d(1, -45))
                 .strafeToLinearHeading(new Vector2d(55,-57), Math.toRadians(90))
                 .waitSeconds(0.001);
 
