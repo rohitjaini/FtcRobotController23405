@@ -31,7 +31,7 @@ public class CORobotCode_Semis extends LinearOpMode {
     public static int SLIDE_SPEC_BAR_POSITION = 1400;
     public static int SLIDE_SPEC_CLIP_POSITION = 950;
     public static int SLIDE_SPEC_GRAB_POSITION = 0;
-    public static int ARM_GRAB_POSITION = 910;
+    public static int ARM_GRAB_POSITION = 900;
     public static int ARM_GRAB_LOWER_POSITION = 930;
     public static int ARM_HOLD_POSITION = 160;
     public static int ARM_TRANSFER_POSITION = 560;
