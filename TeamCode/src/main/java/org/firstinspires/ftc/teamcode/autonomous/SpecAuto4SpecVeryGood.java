@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.teleop.PIDFMotorController;
 public class SpecAuto4SpecVeryGood extends LinearOpMode {
     public static boolean USER_INPUT_FLAG = false;
     public static int SLIDES_ABOVE_BAR = 1400;
-    public static int SLIDES_BELOW_BAR = 800;
+    public static int SLIDES_BELOW_BAR = 950;
     public static int SLIDES_SPEC_PICKUP = 0;
     public static int SLIDES_SLIGHTLY_ABOVE_WALL = 100;
     public static double SPEC_CLAW_CLOSE = 0.3;
@@ -239,13 +239,14 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .strafeTo(new Vector2d(45, -55))
                 .strafeTo(new Vector2d(45,-20))
                 .splineToConstantHeading(new Vector2d(57,-20), Math.toRadians(270))
-                .strafeTo(new Vector2d(57,-60))
+                .strafeTo(new Vector2d(57,-58))
                 .strafeTo(new Vector2d(57,-40))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(57,-64.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
                 .waitSeconds(0.5)
+                .strafeTo(new Vector2d(57,-60))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
                 .waitSeconds(0.2)
@@ -255,6 +256,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
         TrajectoryActionBuilder driveBackToPutSlidesDownThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
                 .waitSeconds(0.3)
+                .strafeTo(new Vector2d(2,-40))
                 .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneThirdSpec = driveBackToPutSlidesDownThirdSpec.fresh()
@@ -263,29 +265,35 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneThirdSpec = goToZoneThirdSpec.fresh()
                 .waitSeconds(0.5)
+                .strafeTo(new Vector2d(58,-58))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubThirdSpec = driveOutOfZoneThirdSpec.fresh()
                 .waitSeconds(0.3)
-                .strafeToLinearHeading(new Vector2d(-4,-35), Math.toRadians(270)) //change heading
+                .strafeToLinearHeading(new Vector2d(-1,-35), Math.toRadians(270)) //change heading
                 .waitSeconds(0.001)
-                .waitSeconds(0.3)
-                .strafeTo(new Vector2d(-4,-31));
+                .strafeTo(new Vector2d(-1,-31))
+                .waitSeconds(0.3);
         TrajectoryActionBuilder driveBackToPutSlidesDownFourthSpec = goToSubThirdSpec.fresh()
+                .waitSeconds(0.001)
+                .strafeTo(new Vector2d(-1,-40))
                 .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneFourthSpec = driveBackToPutSlidesDownFourthSpec.fresh()
+                .waitSeconds(0.001)
                 .strafeTo(new Vector2d(58,-64.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneFourthSpec = goToZoneFourthSpec.fresh()
+                .waitSeconds(0.3)
+                .strafeTo(new Vector2d(58,-58))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubFourthSpec = driveOutOfZoneFourthSpec.fresh()
                 .waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(1,-33), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(1, -31))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
                 .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(45,-60), Math.toRadians(90))
+                .strafeTo(new Vector2d(2,-40))
+                .strafeToLinearHeading(new Vector2d(45,-58), Math.toRadians(90))
                 .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
