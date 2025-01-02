@@ -34,7 +34,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
     public static int ARM_GRAB_LOWER_POSITION = 930;
     public static int ARM_HOLD_POSITION = 160;
     public static int ARM_TRANSFER_POSITION = 560;
-    public static int ARM_SUB_HOLD = 850;
+    public static int ARM_SUB_HOLD = 800;
     public static double WRIST_TRANSFER_POSITION = 0.20;
     public static double WRIST_GRAB_POSITION = 0.62;
     public static double ARM_CLAW_FULL_OPEN = 0.45;

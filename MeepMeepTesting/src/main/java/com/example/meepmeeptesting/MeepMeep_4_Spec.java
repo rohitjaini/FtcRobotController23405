@@ -14,18 +14,18 @@ public class MeepMeep_4_Spec {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
-        RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
+        RoadRunnerBotEntity drive = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(140, 90, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
         Pose2d beginPose = new Pose2d(15, -61.5, Math.toRadians(270));
 
-        TrajectoryActionBuilder moveAwayFromBarrier = myBot.getDrive().actionBuilder(beginPose)
+        TrajectoryActionBuilder moveAwayFromBarrier = drive.getDrive().actionBuilder(beginPose)
                 .strafeTo(new Vector2d(15, -50))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
-                .waitSeconds(1.5)
+                .waitSeconds(0.2)
                 .strafeTo(new Vector2d(0, -32))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
@@ -40,9 +40,10 @@ public class MeepMeep_4_Spec {
                 .strafeTo(new Vector2d(47, -50))
                 .strafeTo(new Vector2d(47,-19))
                 .splineToConstantHeading(new Vector2d(57,-20), Math.toRadians(270))
-                .strafeTo(new Vector2d(57,-60))
+                .strafeTo(new Vector2d(57,-50))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(57,-61.5))
+                .strafeTo(new Vector2d(52,-44))
+                .strafeTo(new Vector2d(47,-61.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
                 .waitSeconds(0.5)
@@ -129,12 +130,12 @@ public class MeepMeep_4_Spec {
                 goBackAndParkAction //park in player person zone
         );
 
-        myBot.runAction(autoSequence);
+        drive.runAction(autoSequence);
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(myBot)
+                .addEntity(drive)
                 .start();
     }
 }
