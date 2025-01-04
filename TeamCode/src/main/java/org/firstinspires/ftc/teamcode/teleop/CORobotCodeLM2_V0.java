@@ -82,6 +82,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
             bucketControl();
             specClawControl();
             resetSlidePID();
+            manualSlideControl();
 
             runPIDIterations();
             telemetry.update();
