@@ -34,17 +34,17 @@ public class CORobotCode_Semis extends LinearOpMode {
     public static int ARM_GRAB_POSITION = 900;
     public static int ARM_GRAB_LOWER_POSITION = 930;
     public static int ARM_HOLD_POSITION = 160;
-    public static int ARM_TRANSFER_POSITION = 560;
-    public static int ARM_SUB_HOLD = 850;
-    public static double WRIST_TRANSFER_POSITION = 0.20;
+    public static int ARM_TRANSFER_POSITION = 500;
+    public static int ARM_SUB_HOLD = 740;
+    public static double WRIST_TRANSFER_POSITION = 0.83;
     public static double WRIST_GRAB_POSITION = 0.5;
-    public static double ARM_CLAW_FULL_OPEN = 0.45;
-    public static double ARM_CLAW_FULL_CLOSE = 0.67;
-    public static double ARM_CLAW_TRANSFER_OPEN = 0.84;
+    public static double ARM_CLAW_FULL_OPEN = 0.4;
+    public static double ARM_CLAW_FULL_CLOSE = 0.68;
+    public static double ARM_CLAW_TRANSFER_OPEN = 0.5;
     public static double SPEC_CLAW_OPEN = 0.9;
     public static double SPEC_CLAW_CLOSE = 0.3;
     public static double BUCKET_DEPOSIT_POSITION = 0.78;
-    public static double BUCKET_TRANSFER_POSITION = 0.1;
+    public static double BUCKET_TRANSFER_POSITION = 0.04;
     private PIDFMotorController armController;
     private PIDFMotorControllerSlides slideController;
 
