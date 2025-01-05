@@ -81,6 +81,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
             bucketControl();
             specClawControl();
             resetSlidePID();
+            manualSlideControl();
 
             runPIDIterations();
             telemetry.update();
@@ -175,6 +176,15 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
             } else if (gamepad2.dpad_right) {
                 moveSlidesToPosition(SLIDE_SPEC_CLIP_POSITION);
             }
+        }
+    }
+    private void manualSlideControl(){
+        int currentPosition = slideController.getCurrentPosition();
+        if (gamepad2.left_stick_y > 0.2) {
+            slideController.setTargetPosition(currentPosition + 50);
+        }
+        if (gamepad2.left_stick_y < -0.2) {
+            slideController.setTargetPosition(currentPosition - 50);
         }
     }
 
