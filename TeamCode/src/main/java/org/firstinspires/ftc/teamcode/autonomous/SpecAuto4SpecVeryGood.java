@@ -224,49 +224,41 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .strafeTo(new Vector2d(15, -50))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
-                .waitSeconds(0.5)
-                .strafeTo(new Vector2d(0, -32))
-                .waitSeconds(0.5);
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(3, -31))
+                .waitSeconds(0.001);
         TrajectoryActionBuilder driveBack = moveIntoSpec1Position.fresh()
-                .waitSeconds(0.5)
-                .strafeTo(new Vector2d(0, -43))
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(3, -40))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
                 .waitSeconds(0.001)
-                .strafeToLinearHeading(new Vector2d(38, -43), Math.toRadians(90)) // go to the right
-                .strafeTo(new Vector2d(38, -20))
-                .splineToConstantHeading(new Vector2d(45, -20), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(37, -40), Math.toRadians(90)) // go to the right
+                .strafeTo(new Vector2d(37, -18))
+                .splineToConstantHeading(new Vector2d(45, -18), Math.toRadians(270))
                 .strafeTo(new Vector2d(45, -55))
                 .strafeTo(new Vector2d(45,-20))
-                .splineToConstantHeading(new Vector2d(57,-20), Math.toRadians(270))
-                .strafeTo(new Vector2d(57,-58))
-                .strafeTo(new Vector2d(57,-40))
-                .waitSeconds(0.2)
-                .strafeTo(new Vector2d(57,-64.5))
-                .waitSeconds(0.001);
+                .splineToConstantHeading(new Vector2d(57,-18), Math.toRadians(270))
+                .strafeTo(new Vector2d(57,-55))
+                .strafeTo(new Vector2d(43,-47))
+                .strafeTo(new Vector2d(43,-64.5))
+                .waitSeconds(0.3);
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
-                .waitSeconds(0.5)
-                .strafeTo(new Vector2d(57,-60))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
-                .waitSeconds(0.2)
-                .strafeToLinearHeading(new Vector2d(2,-45), Math.toRadians(270)) //change heading
-                .strafeTo(new Vector2d(2, -32))
+                .strafeToLinearHeading(new Vector2d(2,-34), Math.toRadians(270)) //change heading
+                .strafeTo(new Vector2d(2, -31))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveBackToPutSlidesDownThirdSpec = goToSubSecondSpec.fresh()
                 .waitSeconds(0.001)
-                .waitSeconds(0.3)
-                .strafeTo(new Vector2d(2,-40))
-                .strafeToLinearHeading(new Vector2d(40,-53), Math.toRadians(90))
+                .strafeTo(new Vector2d(2, -35))
+                .strafeToLinearHeading(new Vector2d(40,-59), Math.toRadians(90))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneThirdSpec = driveBackToPutSlidesDownThirdSpec.fresh()
-                .waitSeconds(0.2)
-                .strafeTo(new Vector2d(58,-64.5))
+                .strafeTo(new Vector2d(43,-64.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneThirdSpec = goToZoneThirdSpec.fresh()
-                .waitSeconds(0.5)
-                .strafeTo(new Vector2d(58,-58))
-                .waitSeconds(0.001);
+                .waitSeconds(0.2);
         TrajectoryActionBuilder goToSubThirdSpec = driveOutOfZoneThirdSpec.fresh()
                 .waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(-1,-35), Math.toRadians(270)) //change heading
@@ -280,18 +272,19 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneFourthSpec = driveBackToPutSlidesDownFourthSpec.fresh()
                 .waitSeconds(0.001)
-                .strafeTo(new Vector2d(58,-64.5))
+                .strafeTo(new Vector2d(43,-64.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneFourthSpec = goToZoneFourthSpec.fresh()
                 .waitSeconds(0.3)
-                .strafeTo(new Vector2d(58,-58))
+                .strafeTo(new Vector2d(43,-58))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubFourthSpec = driveOutOfZoneFourthSpec.fresh()
                 .waitSeconds(0.3)
-                .strafeToLinearHeading(new Vector2d(1,-33), Math.toRadians(270)) //change heading
+                .strafeToLinearHeading(new Vector2d(2,-36), Math.toRadians(270)) //change heading
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
-                .waitSeconds(1)
+                .strafeTo(new Vector2d(2,-31))
+                .waitSeconds(0.2)
                 .strafeTo(new Vector2d(2,-40))
                 .strafeToLinearHeading(new Vector2d(45,-58), Math.toRadians(90))
                 .waitSeconds(0.001);

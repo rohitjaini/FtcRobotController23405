@@ -30,7 +30,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
     public static int SLIDE_SPEC_BAR_POSITION = 1400;
     public static int SLIDE_SPEC_CLIP_POSITION = 950;
     public static int SLIDE_SPEC_GRAB_POSITION = 0;
-    public static int ARM_GRAB_POSITION = 900;
+    public static int ARM_GRAB_POSITION = 880;
     public static int ARM_GRAB_LOWER_POSITION = 930;
     public static int ARM_HOLD_POSITION = 160;
     public static int ARM_TRANSFER_POSITION = 500;
@@ -110,7 +110,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
         double slideTicksInDegrees = 384.5 / 360.0;
 
         // Initialize PIDF controllers for the arm and slide
-        armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.32, 0.0005, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
+        armController = new PIDFMotorController(intakeArmMotor, 0.01, 0.23, 0.001, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
         slideController = new PIDFMotorControllerSlides(rightSlideMotor, 0.01, 0.6, 0.001, 0, slideTicksInDegrees, MAX_SLIDE_POWER_UP);
 
         // Set directions for drivetrain motors
