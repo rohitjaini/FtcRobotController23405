@@ -221,6 +221,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
 
 
         TrajectoryActionBuilder moveAwayFromBarrier = drive.actionBuilder(beginPose)
+                .waitSeconds(0.001)
                 .strafeTo(new Vector2d(15, -50))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
@@ -246,6 +247,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
+                .waitSeconds(0.001)
                 .strafeToLinearHeading(new Vector2d(2,-34), Math.toRadians(270)) //change heading
                 .strafeTo(new Vector2d(2, -31))
                 .waitSeconds(0.001);
@@ -255,6 +257,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(40,-59), Math.toRadians(90))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneThirdSpec = driveBackToPutSlidesDownThirdSpec.fresh()
+                .waitSeconds(0.001)
                 .strafeTo(new Vector2d(43,-64.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneThirdSpec = goToZoneThirdSpec.fresh()
