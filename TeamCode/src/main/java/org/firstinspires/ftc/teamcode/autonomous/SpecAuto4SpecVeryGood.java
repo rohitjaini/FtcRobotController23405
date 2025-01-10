@@ -235,7 +235,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .waitSeconds(0.001)
                 .strafeToLinearHeading(new Vector2d(37, -40), Math.toRadians(90)) // go to the right
                 .strafeTo(new Vector2d(37, -18))
-                .splineToConstantHeading(new Vector2d(45, -18), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(46, -18), Math.toRadians(270))
                 .strafeTo(new Vector2d(45, -55))
                 .strafeTo(new Vector2d(45,-20))
                 .splineToConstantHeading(new Vector2d(57,-18), Math.toRadians(270))
