@@ -22,6 +22,7 @@ public class MeepMeep_4_Spec {
         Pose2d beginPose = new Pose2d(15, -61.5, Math.toRadians(270));
 
         TrajectoryActionBuilder moveAwayFromBarrier = myBot.getDrive().actionBuilder(beginPose)
+                .waitSeconds(0.001)
                 .strafeTo(new Vector2d(15, -50))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder moveIntoSpec1Position = moveAwayFromBarrier.fresh()
@@ -36,17 +37,17 @@ public class MeepMeep_4_Spec {
                 .waitSeconds(0.001)
                 .strafeToLinearHeading(new Vector2d(37, -40), Math.toRadians(90)) // go to the right
                 .strafeTo(new Vector2d(37, -18))
-                .splineToConstantHeading(new Vector2d(45, -18), Math.toRadians(270))
-                .strafeTo(new Vector2d(45, -55))
-                .strafeTo(new Vector2d(45,-20))
-                .splineToConstantHeading(new Vector2d(57,-18), Math.toRadians(270))
-                .strafeTo(new Vector2d(57,-55))
-                .strafeTo(new Vector2d(43,-47))
-                .strafeTo(new Vector2d(43,-64.5))
-                .waitSeconds(0.3);
+                .splineToConstantHeading(new Vector2d(46, -18), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(45,-55), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(45,-20), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(58,-18), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48,-64.5), Math.toRadians(270))
+                .strafeTo(new Vector2d(48,-64.5))
+                .waitSeconds(0.1);
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
+                .waitSeconds(0.001)
                 .strafeToLinearHeading(new Vector2d(2,-34), Math.toRadians(270)) //change heading
                 .strafeTo(new Vector2d(2, -31))
                 .waitSeconds(0.001);
@@ -56,10 +57,11 @@ public class MeepMeep_4_Spec {
                 .strafeToLinearHeading(new Vector2d(40,-59), Math.toRadians(90))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneThirdSpec = driveBackToPutSlidesDownThirdSpec.fresh()
+                .waitSeconds(0.001)
                 .strafeTo(new Vector2d(43,-64.5))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneThirdSpec = goToZoneThirdSpec.fresh()
-                .waitSeconds(0.2);
+                .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubThirdSpec = driveOutOfZoneThirdSpec.fresh()
                 .waitSeconds(0.3)
                 .strafeToLinearHeading(new Vector2d(-1,-35), Math.toRadians(270)) //change heading
@@ -73,19 +75,18 @@ public class MeepMeep_4_Spec {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneFourthSpec = driveBackToPutSlidesDownFourthSpec.fresh()
                 .waitSeconds(0.001)
-                .strafeTo(new Vector2d(43,-64.5))
+                .strafeTo(new Vector2d(43,-64.8))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneFourthSpec = goToZoneFourthSpec.fresh()
-                .waitSeconds(0.3)
-                .strafeTo(new Vector2d(43,-58))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubFourthSpec = driveOutOfZoneFourthSpec.fresh()
                 .waitSeconds(0.3)
-                .strafeToLinearHeading(new Vector2d(2,-36), Math.toRadians(270)) //change heading
-                .waitSeconds(0.001);
-        TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
+                .strafeToLinearHeading(new Vector2d(2,-35), Math.toRadians(270)) //change heading
+                .waitSeconds(0.001)
                 .strafeTo(new Vector2d(2,-31))
-                .waitSeconds(0.2)
+                .waitSeconds(0.3);
+        TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
+                .waitSeconds(0.1)
                 .strafeTo(new Vector2d(2,-40))
                 .strafeToLinearHeading(new Vector2d(24,-45), Math.toRadians(315))
                 .waitSeconds(0.001);
