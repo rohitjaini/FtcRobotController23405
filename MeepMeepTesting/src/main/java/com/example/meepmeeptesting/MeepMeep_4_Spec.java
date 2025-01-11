@@ -87,7 +87,7 @@ public class MeepMeep_4_Spec {
                 .strafeTo(new Vector2d(2,-31))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(2,-40))
-                .strafeToLinearHeading(new Vector2d(45,-58), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(24,-45), Math.toRadians(315))
                 .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();

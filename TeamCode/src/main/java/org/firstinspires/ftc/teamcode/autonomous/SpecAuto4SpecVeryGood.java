@@ -34,7 +34,9 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
     public static int INTAKE_ARM_DOWN = 50;
     public static double SLIDE_MAX_SPEED = 0.9;
     public static double ARM_MAX_SPEED = 0.5;
+    public static int ARM_INTAKE_POSITION = 780;
     public static double WRIST_SERVO_DOWN = 0.05;
+    public static double WRIST_SERVO_INTAKE = 0.5;
     public static int ARM_INITIAL_ANGLE = 90; //deg
 
     public static class SpecClaw {
@@ -84,6 +86,17 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
         }
         public Action wristServoIn() {
             return new WristServoIn();
+        }
+
+        public class WristServoIntake implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                rightWristServo.setPosition(WRIST_SERVO_INTAKE);
+                return false;
+            }
+        }
+        public Action wristServoIntake() {
+            return new WristServoIntake();
         }
     }
     public static class Slides {
@@ -192,6 +205,8 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
         public Action intakeArmDown() {
             return new moveArmAction(INTAKE_ARM_DOWN);
         }
+
+        public Action intakeArmIntakePosition() { return new moveArmAction(ARM_INTAKE_POSITION); }
     }
 
     public static class WaitForUser implements Action {
@@ -243,7 +258,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .strafeTo(new Vector2d(45,-20))
                 .splineToConstantHeading(new Vector2d(58,-18), Math.toRadians(270))
                 .strafeTo(new Vector2d(48,-64.5))
-                .waitSeconds(0.4);
+                .waitSeconds(0.1);
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToSubSecondSpec = driveOutOfZoneSecondSpec.fresh()
@@ -288,7 +303,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
         TrajectoryActionBuilder goBackAndPark = goToSubFourthSpec.fresh()
                 .waitSeconds(0.1)
                 .strafeTo(new Vector2d(2,-40))
-                .strafeToLinearHeading(new Vector2d(45,-58), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(24,-45), Math.toRadians(315))
                 .waitSeconds(0.001);
 
         Action moveAwayFromBarrierAction = moveAwayFromBarrier.build();
@@ -357,6 +372,8 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 slides.slidesToBelowBar(), //clip on spec
                 new SleepAction(0.2),
                 specClaw.openClaw(), // Release the spec
+                intakeArm.intakeArmIntakePosition(),
+                wristServo.wristServoIntake(),
                 goBackAndParkAction, //park in player person zone
                 slides.slidesToSpecPickup(), //brings slides to pos 0 (fully down)
                 new SleepAction(1) //wait for slides to come down
