@@ -242,7 +242,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .strafeTo(new Vector2d(45, -55))
                 .strafeTo(new Vector2d(45,-20))
                 .splineToConstantHeading(new Vector2d(58,-18), Math.toRadians(270))
-                .strafeTo(new Vector2d(56,-64.5))
+                .strafeTo(new Vector2d(48,-64.5))
                 .waitSeconds(0.4);
         TrajectoryActionBuilder driveOutOfZoneSecondSpec = push2SamplesGrabSpec.fresh()
                 .waitSeconds(0.001);
@@ -275,7 +275,7 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
                 .waitSeconds(0.001);
         TrajectoryActionBuilder goToZoneFourthSpec = driveBackToPutSlidesDownFourthSpec.fresh()
                 .waitSeconds(0.001)
-                .strafeTo(new Vector2d(43,-64.5))
+                .strafeTo(new Vector2d(43,-64.8))
                 .waitSeconds(0.001);
         TrajectoryActionBuilder driveOutOfZoneFourthSpec = goToZoneFourthSpec.fresh()
                 .waitSeconds(0.001);
