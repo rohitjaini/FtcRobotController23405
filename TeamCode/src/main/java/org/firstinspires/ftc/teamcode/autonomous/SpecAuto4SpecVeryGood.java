@@ -252,9 +252,9 @@ public class SpecAuto4SpecVeryGood extends LinearOpMode {
         TrajectoryActionBuilder push2SamplesGrabSpec = driveBack.fresh()
                 .waitSeconds(0.001)
                 .strafeToLinearHeading(new Vector2d(37, -40), Math.toRadians(90)) // go to the right
-                .strafeTo(new Vector2d(37, -18))
-                .splineToConstantHeading(new Vector2d(48, -18), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(47,-55), Math.toRadians(270))
+                .strafeTo(new Vector2d(37, -15))
+                .splineToConstantHeading(new Vector2d(50, -15), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(49,-55), Math.toRadians(270))
                 .strafeTo(new Vector2d(47,-20))
                 .splineToConstantHeading(new Vector2d(60,-18), Math.toRadians(270))
                 .splineToConstantHeading(new Vector2d(48,-64.5), Math.toRadians(270))
