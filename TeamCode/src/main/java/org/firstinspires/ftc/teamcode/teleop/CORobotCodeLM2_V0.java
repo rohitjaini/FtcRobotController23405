@@ -27,16 +27,17 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
     public static double MAX_SLIDE_POWER_UP = 1;
     public static double MAX_SLIDE_POWER_DOWN = 0.8;
     public static int SLIDE_DEPOSIT_POSITION = 2600;
-    public static int SLIDE_SPEC_BAR_POSITION = 1400;
+    public static int SLIDE_SPEC_BAR_POSITION = 1500;
     public static int SLIDE_SPEC_CLIP_POSITION = 950;
     public static int SLIDE_SPEC_GRAB_POSITION = 0;
     public static int ARM_GRAB_POSITION = 880;
-    public static int ARM_GRAB_LOWER_POSITION = 930;
+    public static int ARM_GRAB_LOWER_POSITION = 910;
     public static int ARM_HOLD_POSITION = 160;
     public static int ARM_TRANSFER_POSITION = 500;
     public static int ARM_SUB_HOLD = 740;
     public static double WRIST_TRANSFER_POSITION = 0.83;
     public static double WRIST_GRAB_POSITION = 0.5;
+    public static double WRIST_HOLD_POSITION = 0.4;
     public static double ARM_CLAW_FULL_OPEN = 0.4;
     public static double ARM_CLAW_FULL_CLOSE = 0.68;
     public static double ARM_CLAW_TRANSFER_OPEN = 0.5;
@@ -109,7 +110,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
         double slideTicksInDegrees = 384.5 / 360.0;
 
         // Initialize PIDF controllers for the arm and slide
-        armController = new PIDFMotorController(intakeArmMotor, 0.01, 0.23, 0.001, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
+        armController = new PIDFMotorController(intakeArmMotor, 0.01, 0.23, 0.0005, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
         slideController = new PIDFMotorControllerSlides(rightSlideMotor, 0.01, 0.6, 0.001, 0, slideTicksInDegrees, MAX_SLIDE_POWER_UP);
 
         // Set directions for drivetrain motors
@@ -145,7 +146,6 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
         // Field-oriented adjustments
         double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
         double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-        rotX = rotX * 1.1; //counteract imperfect strafing
 
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
         double frontLeftPower = (rotY + rotX + rx) / denominator;
@@ -195,7 +195,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
             clawIntake.setPosition(ARM_CLAW_FULL_OPEN);
         } else if (gamepad1.b){
             armController.setTargetPosition(ARM_HOLD_POSITION);
-            rightWristServo.setPosition(WRIST_GRAB_POSITION);
+            rightWristServo.setPosition(WRIST_HOLD_POSITION);
         } else if (gamepad1.y){
             armController.setTargetPosition(ARM_TRANSFER_POSITION);
             rightWristServo.setPosition(WRIST_TRANSFER_POSITION);
