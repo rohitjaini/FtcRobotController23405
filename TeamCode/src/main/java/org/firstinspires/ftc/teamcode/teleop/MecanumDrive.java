@@ -45,6 +45,7 @@ import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumLocalizerInputsMessage;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
+import org.firstinspires.ftc.teamcode.teleop.Localizer;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -63,28 +64,28 @@ public class MecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
 
         // drive model parameters
-        public double inPerTick = 0.02259; // SparkFun OTOS Note: you can probably leave this at 1
-        public double lateralInPerTick = 0.0231362468;
-        public double trackWidthTicks = 1168.6165681;
+        public double inPerTick = 1; // If you're using OTOS/Pinpoint leave this at 1 (all values will be in inches, 1 tick = 1 inch)
+        public double lateralInPerTick = 0.745650056; // Tune this with LateralRampLogger (even if you use OTOS/Pinpoint)
+        public double trackWidthTicks = 16.090698426;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.3576064486;
-        public double kV = 0.00418658814;
-        public double kA = 0.0004;
+        public double kS = 1.01187245;
+        public double kV = 0.2086026941;
+        public double kA = 0.000001;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 80;
+        public double maxWheelVel = 600;
         public double minProfileAccel = -30;
-        public double maxProfileAccel = 70;
+        public double maxProfileAccel = 450;
 
         // turn profile parameters (in radians)
         public double maxAngVel = Math.PI; // shared with path
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 5;
-        public double lateralGain = 5;
-        public double headingGain = 10; // shared with turn
+        public double axialGain = 7;
+        public double lateralGain = 4;
+        public double headingGain = 4; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -110,7 +111,7 @@ public class MecanumDrive {
 
     public final VoltageSensor voltageSensor;
 
-    public final LazyImu lazyImu;
+    public LazyImu lazyImu;
 
     public final Localizer localizer;
     public Pose2d pose;
@@ -140,7 +141,7 @@ public class MecanumDrive {
             backLeftMotorEncoder.setDirection(DcMotorSimple.Direction.FORWARD);
             backRightMotorEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
             frontRightMotorEncoder.setDirection(DcMotorSimple.Direction.FORWARD);
-            frontLeftMotorEncoder.setDirection(DcMotorSimple.Direction.FORWARD);
+            frontLeftMotorEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
 
             imu = lazyImu.get();
 
@@ -231,7 +232,7 @@ public class MecanumDrive {
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

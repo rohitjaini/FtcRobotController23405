@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Config
 @TeleOp
@@ -20,7 +21,7 @@ public class PIDFSlideTuner extends OpMode {
 
     public static int target = 0;
 
-    private final double ticks_in_degrees = 537.7 / 360.0;
+    private final double ticks_in_degrees = 384.5 / 360.0;
 
     private DcMotorEx rightSlideMotor;
 

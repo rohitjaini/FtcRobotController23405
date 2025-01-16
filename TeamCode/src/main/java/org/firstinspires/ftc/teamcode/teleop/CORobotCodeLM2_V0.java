@@ -23,29 +23,30 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class CORobotCodeLM2_V0 extends LinearOpMode {
 
     public static double MAX_ARM_POWER = 0.7;
-    public static int ARM_INITIAL_ANGLE = 50; //deg
-    public static double MAX_SLIDE_POWER_UP = 0.9;
-    public static double MAX_SLIDE_POWER_DOWN = 0.3;
-    public static int SLIDE_DEPOSIT_POSITION = 3790;
-    public static int SLIDE_SPEC_BAR_POSITION = 2250;
-    public static int SLIDE_SPEC_CLIP_POSITION = 1750;
+    public static int ARM_INITIAL_ANGLE = 90; //deg
+    public static double MAX_SLIDE_POWER_UP = 1;
+    public static double MAX_SLIDE_POWER_DOWN = 0.8;
+    public static int SLIDE_DEPOSIT_POSITION = 2600;
+    public static int SLIDE_SPEC_BAR_POSITION = 1500;
+    public static int SLIDE_SPEC_CLIP_POSITION = 950;
     public static int SLIDE_SPEC_GRAB_POSITION = 0;
-    public static int ARM_GRAB_POSITION = 565;
-    public static int ARM_HOLD_POSITION = 400;
-    public static int ARM_TRANSFER_POSITION = 260;
-    public static int ARM_SUB_HOLD = 450;
-    public static double WRIST_TRANSFER_POSITION = 0.20;
-    public static double WRIST_GRAB_POSITION = 0.6;
-    public static double ARM_CLAW_FULL_OPEN = 0.35;
-    public static double ARM_CLAW_FULL_CLOSE = 0.58;
+    public static int ARM_GRAB_POSITION = 880;
+    public static int ARM_GRAB_LOWER_POSITION = 910;
+    public static int ARM_HOLD_POSITION = 160;
+    public static int ARM_TRANSFER_POSITION = 500;
+    public static int ARM_SUB_HOLD = 740;
+    public static double WRIST_TRANSFER_POSITION = 0.83;
+    public static double WRIST_GRAB_POSITION = 0.5;
+    public static double WRIST_HOLD_POSITION = 0.4;
+    public static double ARM_CLAW_FULL_OPEN = 0.4;
+    public static double ARM_CLAW_FULL_CLOSE = 0.68;
     public static double ARM_CLAW_TRANSFER_OPEN = 0.5;
     public static double SPEC_CLAW_OPEN = 0.9;
     public static double SPEC_CLAW_CLOSE = 0.3;
     public static double BUCKET_DEPOSIT_POSITION = 0.78;
-    public static double BUCKET_TRANSFER_POSITION = 0.1;
+    public static double BUCKET_TRANSFER_POSITION = 0.04;
     private PIDFMotorController armController;
-    private PIDFMotorController slideController;
-
+    private PIDFMotorControllerSlides slideController;
     // Define hardware components
     private DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
     private Servo rightWristServo, specServo, bucketServo;
@@ -80,6 +81,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
             intakeControl();
             bucketControl();
             specClawControl();
+            resetSlidePID();
 
             runPIDIterations();
             telemetry.update();
@@ -104,18 +106,23 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
         bucketServo = hardwareMap.get(Servo.class, "bucketServo");
         clawIntake = hardwareMap.get(Servo.class, "clawIntake");
 
-        double armTicksInDegrees = 1425.1 / 360.0;
-        double slideTicksInDegrees = 537.7 / 360.0;
+        double armTicksInDegrees = 537.7 / 360.0;
+        double slideTicksInDegrees = 384.5 / 360.0;
 
         // Initialize PIDF controllers for the arm and slide
-        armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.13, 0.001, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
-        slideController = new PIDFMotorController(rightSlideMotor, 0.01, 0.25, 0.001, 0, slideTicksInDegrees, MAX_SLIDE_POWER_UP);
+        armController = new PIDFMotorController(intakeArmMotor, 0.01, 0.23, 0.0005, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
+        slideController = new PIDFMotorControllerSlides(rightSlideMotor, 0.01, 0.6, 0.001, 0, slideTicksInDegrees, MAX_SLIDE_POWER_UP);
 
         // Set directions for drivetrain motors
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Initialize the IMU
         imu = hardwareMap.get(IMU.class, "imu");
@@ -188,7 +195,7 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
             clawIntake.setPosition(ARM_CLAW_FULL_OPEN);
         } else if (gamepad1.b){
             armController.setTargetPosition(ARM_HOLD_POSITION);
-            rightWristServo.setPosition(WRIST_TRANSFER_POSITION);
+            rightWristServo.setPosition(WRIST_HOLD_POSITION);
         } else if (gamepad1.y){
             armController.setTargetPosition(ARM_TRANSFER_POSITION);
             rightWristServo.setPosition(WRIST_TRANSFER_POSITION);
@@ -199,6 +206,10 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
             clawIntake.setPosition(ARM_CLAW_FULL_CLOSE);
         } else if (gamepad1.left_bumper){
             clawIntake.setPosition(ARM_CLAW_TRANSFER_OPEN);
+        }
+        else if (gamepad1.dpad_down){
+            armController.setTargetPosition(ARM_GRAB_LOWER_POSITION);
+            rightWristServo.setPosition(WRIST_GRAB_POSITION);
         }
     }
 
@@ -220,10 +231,15 @@ public class CORobotCodeLM2_V0 extends LinearOpMode {
             specServo.setPosition(SPEC_CLAW_OPEN); //open spec claw
         }
     }
-
+    private void resetSlidePID(){
+        if (gamepad2.back) {
+            slideController.resetMotorEncoder();
+            gamepad2.rumble(100);
+        }
+    }
     private void runPIDIterations() {
         PIDFMotorController.MotorData armMotorData = armController.runIteration();
-        PIDFMotorController.MotorData slideMotorData = slideController.runIteration();
+        PIDFMotorControllerSlides.MotorData slideMotorData = slideController.runIteration();
         telemetry.addData("Arm Position", armMotorData.CurrentPosition);
         telemetry.addData("Arm Target", armMotorData.TargetPosition);
         telemetry.addData("Arm Power", armMotorData.SetPower);
