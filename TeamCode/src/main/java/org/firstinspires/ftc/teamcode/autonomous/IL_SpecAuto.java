@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+/*package org.firstinspires.ftc.teamcode.autonomous;
 
 import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.config.Config;
@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.PinpointDrive;
 import org.firstinspires.ftc.teamcode.teleop.PIDFMotorController;
 
 @Config
@@ -327,4 +326,4 @@ public class IL_SpecAuto extends LinearOpMode {
         waitForStart();
         Actions.runBlocking(new ParallelAction(autoSequence, pidControlLoops));
     }
-}
+}*/

@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -48,11 +48,13 @@ public class CORobotCode_Semis extends LinearOpMode {
     private PIDFMotorController armController;
     private PIDFMotorControllerSlides slideController;
 
+    public Follower follower;
+
     // Define hardware components
-    private DcMotor frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor;
+
     private Servo rightWristServo, specServo, bucketServo;
     private Servo clawIntake;
-    private GoBildaPinpointDriverRR pinpointdriver;
+   // private GoBildaPinpointDriverRR pinpointdriver;
     private IMU imu;
 
     @Override
@@ -68,7 +70,7 @@ public class CORobotCode_Semis extends LinearOpMode {
                 )
         );
         imu.initialize(imuParameters);
-        pinpointdriver.initialize();
+       // pinpointdriver.initialize();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         // Wait for start
@@ -79,6 +81,7 @@ public class CORobotCode_Semis extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+
             handleDriving();
             slideControl();
             intakeControl();
@@ -95,11 +98,6 @@ public class CORobotCode_Semis extends LinearOpMode {
      * Initializes the hardware components and PIDF controllers.
      */
     private void initializeHardware() {
-        // Initialize motors and servos
-        frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
-        backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
-        frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
-        backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
 
         DcMotorEx intakeArmMotor = hardwareMap.get(DcMotorEx.class, "intakeArmMotor");
         DcMotorEx rightSlideMotor = hardwareMap.get(DcMotorEx.class, "rightSlideMotor");
@@ -116,53 +114,20 @@ public class CORobotCode_Semis extends LinearOpMode {
         armController = new PIDFMotorController(intakeArmMotor, 0.008, 0.32, 0.0005, 0.4, armTicksInDegrees, MAX_ARM_POWER, ARM_INITIAL_ANGLE);
         slideController = new PIDFMotorControllerSlides(rightSlideMotor, 0.01, 0.6, 0.001, 0, slideTicksInDegrees, MAX_SLIDE_POWER_UP);
 
-        // Set directions for drivetrain motors
-        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        // Initialize the IMU
-        imu = hardwareMap.get(IMU.class, "imu");
-        pinpointdriver = hardwareMap.get(GoBildaPinpointDriverRR.class,"pinpoint");
+        follower = new Follower(hardwareMap);
     }
 
     /**
      * Manages the drivetrain controls using mecanum drive with field-oriented control.
      */
-    private void handleDriving() {
-        double y = -gamepad1.left_stick_y; // Forward/backward
-        double x = gamepad1.left_stick_x;  // Left/right
-        double rx = gamepad1.right_stick_x; // Rotation
+    private void handleDriving() throws InterruptedException {
 
         if (gamepad1.back) {
-            imu.resetYaw();
-            pinpointdriver.resetYaw();
-            gamepad1.rumble(100);
+            follower.poseUpdater.resetIMU();
         }
 
-        double botHeading = pinpointdriver.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-        // Field-oriented adjustments
-        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-
-        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-        double frontLeftPower = (rotY + rotX + rx) / denominator;
-        double backLeftPower = (rotY - rotX + rx) / denominator;
-        double frontRightPower = (rotY - rotX - rx) / denominator;
-        double backRightPower = (rotY + rotX - rx) / denominator;
-
-        // Set motor powers
-        frontLeftMotor.setPower(frontLeftPower);
-        backLeftMotor.setPower(backLeftPower);
-        frontRightMotor.setPower(frontRightPower);
-        backRightMotor.setPower(backRightPower);
+        follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, true);
+        follower.update();
     }
 
     private void slideControl(){
