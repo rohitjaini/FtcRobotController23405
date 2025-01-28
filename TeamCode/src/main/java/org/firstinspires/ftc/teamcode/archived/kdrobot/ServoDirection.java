@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.kdrobot;
+package org.firstinspires.ftc.teamcode.archived.kdrobot;
 
 public class ServoDirection {
     public final static String INTAKE = "INTAKE";
