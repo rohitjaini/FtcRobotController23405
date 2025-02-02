@@ -13,6 +13,8 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.tuning.PIDFMotorController;
+import org.firstinspires.ftc.teamcode.tuning.PIDFMotorControllerSlides;
 
 /**
  * TeleOp mode for controlling the robot. Integrates driving, arm, slide, and intake systems.
