@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teleop;
+package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -12,35 +12,40 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp
-public class CORobotCodeLM0_V1 extends LinearOpMode {
+public class CORobotCodeLM1_V1 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Declare our motors
         // Make sure your ID's match your configuration
         DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
+
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
+
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
+
         DcMotor backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
+
         DcMotor rightSlideMotor = hardwareMap.get(DcMotor.class, "rightSlideMotor");
-        DcMotor leftSlideMotor = hardwareMap.get(DcMotor.class, "leftSlideMotor");
+
         Servo rightWristServo = hardwareMap.get(Servo.class, "rightWristServo");
-        Servo leftWristServo = hardwareMap.get(Servo.class, "leftWristServo");
-        Servo rightClawServo = hardwareMap.get(Servo.class, "rightClawServo");
-        Servo leftClawServo = hardwareMap.get(Servo.class, "leftClawServo");
+
+        Servo specServo = hardwareMap.get(Servo.class, "specServo");
+
+        CRServo activeIntake = hardwareMap.get(CRServo.class, "activeIntake");
+
         DcMotor intakeArmMotor = hardwareMap.get(DcMotor.class, "intakeArmMotor");
+
         Servo bucketServo = hardwareMap.get(Servo.class, "bucketServo");
-       // intakeArmMotor.setTargetPosition(0);
-        //leftSlideMotor.setTargetPosition(0);
-        rightSlideMotor.setTargetPosition(0);
-       // intakeArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //intakeArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //intakeArmMotor.setPower(0.3);
-        //leftSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //leftSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //leftSlideMotor.setPower(0.75);
-        rightSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightSlideMotor.setPower(0.75);
+
+        //rightSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //rightSlideMotor.setTargetPosition(0);
+        //rightSlideMotor.setPower(0.3);
+        //rightSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        intakeArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakeArmMotor.setTargetPosition(0);
+        intakeArmMotor.setPower(0.3);
+        intakeArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        telemetry.addLine("Start");
 
         // Reverse the right side motors. This may be wrong for your setup.
         // If your robot moves backwards when commanded to go for   wards,
@@ -67,16 +72,41 @@ public class CORobotCodeLM0_V1 extends LinearOpMode {
         imu.initialize(parameters);
 
         waitForStart();
+//        rightSlideMotor.setPower(-0.5);
+//        sleep(500);
+//        intakeArmMotor.setTargetPosition(300);
+//        sleep(1000);
+//        rightSlideMotor.setPower(0);
+//        sleep(500);
+
+        rightSlideMotor.setPower(-0.5);
+        sleep(3000);
+        rightSlideMotor.setPower(-0.2);
+        rightWristServo.setPosition(0.1);
+        sleep(1000);
+        intakeArmMotor.setTargetPosition(-420); //reset arm into position to make sure that existing teleop works
+        sleep(1500);
+        intakeArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //reset encoder for teleop
+        intakeArmMotor.setTargetPosition(0);
+        intakeArmMotor.setPower(0.2);
+        intakeArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        intakeArmMotor.setTargetPosition(300);
+        sleep(1000);
+
+
+
+        bucketServo.setPosition(0.27);
 
 
         if (isStopRequested()) return;
 
+        double armServoReadyPos = 0.55;
+        boolean lock = false;
+
         while (opModeIsActive()) {
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
-
-            // This button choice was made so that it is hard to hit on accident,
+            double rx = gamepad1.right_stick_x;            // This button choice was made so that it is hard to hit on accident,
             // it can be freely changed based on preference.
             // The equivalent button is start on Xbox-style controllers.
             if (gamepad1.options) {
@@ -104,43 +134,85 @@ public class CORobotCodeLM0_V1 extends LinearOpMode {
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
-//Linear Slide movement
-            //if (gamepad2.y) {
-                //sleep(2000);
-            //rightWristServo.setPosition(0.8);
-                //leftWristServo.setPosition(0.8);
-               // sleep(2000);
-            // intakeArmMotor.setTargetPosition(450);
-                //sleep(800);
-         //   }
-            //if (gamepad2.a) {
-                //sleep(2000);
-               // intakeArmMotor.setTargetPosition(-440);
-                //sleep(2000);
-               // leftWristServo.setPosition(1);
-                //rightWristServo.setPosition(1);
-               // sleep(2000);
-           // }
+
+
+            if (gamepad1.y) {
+                lock = true;
+                intakeArmMotor.setTargetPosition(300);
+                sleep(200);
+                intakeArmMotor.setTargetPosition(380);
+                sleep(500);
+                rightWristServo.setPosition(armServoReadyPos);
+                sleep(500);
+                bucketServo.setPosition(0.27);
+            }
+            if (gamepad1.a) {
+                intakeArmMotor.setTargetPosition(80);
+                rightWristServo.setPosition(0.5);
+                sleep(100);
+                intakeArmMotor.setTargetPosition(80);
+                rightWristServo.setPosition(0.8);
+                sleep(100);
+                rightWristServo.setPosition(0.43);
+            }
             if (gamepad1.x) {
-                bucketServo.setPosition(0);
+                rightWristServo.setPosition(0.5);
+                intakeArmMotor.setTargetPosition(200);
+            }
+            if (gamepad2.a) {
+                bucketServo.setPosition(0.27);
+            }
+            if (gamepad2.y) {
+                bucketServo.setPosition(0.9);
+            }
+            if (gamepad1.right_bumper) {
+                activeIntake.setPower(-1);
+            }
+            if (gamepad1.left_bumper) {
+                activeIntake.setPower(0);
             }
             if (gamepad1.b) {
-                bucketServo.setPosition(0.5);
+                activeIntake.setPower(1);
             }
-            //if (gamepad1.right_bumper) {
-             //   leftClawServo.setPosition(0);
-              //  rightClawServo.setPosition(1);
-           // }
-            //if (gamepad1.left_bumper) {
-               // leftClawServo.setPosition(0.2);
-               // rightClawServo.setPosition(0.8);
+
+            if (gamepad1.dpad_up){
+                if (!lock){
+                    armServoReadyPos = armServoReadyPos + 0.05;
+                    lock = true;
+                }
+            }
+
+            if (gamepad1.dpad_down){
+                if (!lock){
+                    armServoReadyPos = armServoReadyPos - 0.05;
+                    lock = true;
+                }
+            }
+
+            double power = gamepad2.left_stick_y;
+            rightSlideMotor.setPower(power);
+
+            //if (gamepad2.dpad_up){
+            //  rightSlideMotor.setTargetPosition(624);
             //}
-            if (gamepad2.right_bumper) {
-                rightSlideMotor.setTargetPosition(2688);
+            if (gamepad2.b) {
+                specServo.setPosition(0.2);
             }
-            if (gamepad2.left_bumper) {
-                rightSlideMotor.setTargetPosition(0);
+            if (gamepad2.x) {
+                specServo.setPosition(0.8);
             }
+        }
+
+
+    }
+
+    private void waitForInput(){
+//            printTelemetry("Waiting for gamepad1.a");
+        while (true){
+            if (gamepad1.a){
+                return;
+            }
+            sleep(100);
         }
     }
 }

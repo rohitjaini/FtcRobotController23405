@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.opmodes.autonomous;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
