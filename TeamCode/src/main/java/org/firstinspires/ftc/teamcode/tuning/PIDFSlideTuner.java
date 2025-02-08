@@ -37,7 +37,7 @@ public class PIDFSlideTuner extends OpMode {
         controller.setPID(p, i, d);
         int intakeArmPos = rightSlideMotor.getCurrentPosition();
         double pid = controller.calculate(intakeArmPos, target);
-        double ff = Math.cos(Math.toRadians(target / ticks_in_degrees)) * f;
+        double ff = f;
 
         double power = pid + ff;
 
