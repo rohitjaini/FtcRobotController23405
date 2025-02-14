@@ -16,14 +16,14 @@ public class DepositBucket extends Subsystem {
 
     public String bucketServoName = "bucketServo";
 
-    public Command transfer() {
+    public Command ToTransfer() {
         return new ServoToPosition(bucketServo,
                 BUCKET_TRANSFER_POSITION,
                 this);
     }
 
 
-    public Command deposit() {
+    public Command ToDeposit() {
         return new ServoToPosition(bucketServo,
                 BUCKET_DEPOSIT_POSITION,
                 this);

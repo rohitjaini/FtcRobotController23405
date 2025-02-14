@@ -2,15 +2,24 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
+
+import org.firstinspires.ftc.teamcode.commandbase.subsystems.DepositBucket;
+import org.firstinspires.ftc.teamcode.commandbase.subsystems.IntakeClaw;
+import org.firstinspires.ftc.teamcode.commandbase.subsystems.Slides;
+import org.firstinspires.ftc.teamcode.commandbase.subsystems.SpecClaw;
+
 @TeleOp
-public class NextFTCFieldCentricTest extends NextFTCOpMode {
+public class NextFtcTeleop extends NextFTCOpMode {
+
+    public NextFtcTeleop() {
+        super(DepositBucket.INSTANCE, IntakeClaw.INSTANCE, Slides.INSTANCE, SpecClaw.INSTANCE);
+    }
 
     public String frontLeftName = "frontLeftMotor";
     public String backLeftName = "backLeftMotor";
@@ -52,13 +61,27 @@ public class NextFTCFieldCentricTest extends NextFTCOpMode {
     }
 
     @Override
-    public void onStartButtonPressed(){
+    public void onStartButtonPressed() {
+
         driverControlled = new MecanumDriverControlled(motors, gamepadManager.getGamepad1(), false, imu);
         driverControlled.invoke();
+
+        gamepadManager.getGamepad1().getRightBumper().setPressedCommand(IntakeClaw.INSTANCE::full_close); //close intake claw to grab
+
+        gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(IntakeClaw.INSTANCE::transfer_intake_open); //open intake claw to release
+
+        gamepadManager.getGamepad2().getB().setPressedCommand(SpecClaw.INSTANCE::open); //open spec claw
+
+        gamepadManager.getGamepad2().getX().setPressedCommand(SpecClaw.INSTANCE::close); //close spec claw
+
+    }
+
+    public void onUpdate() {
 
         if (gamepad1.back) {
             imu.resetYaw();
             gamepad1.rumble(100);
         }
+
     }
 }
