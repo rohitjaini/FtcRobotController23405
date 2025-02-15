@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.rowanmcalpin.nextftc.core.command.Command;
+import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
 import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
@@ -74,14 +75,11 @@ public class NextFtcTeleop extends NextFTCOpMode {
 
         gamepadManager.getGamepad2().getX().setPressedCommand(SpecClaw.INSTANCE::close); //close spec claw
 
+        gamepadManager.getGamepad1().getBack().setPressedCommand(() -> {
+            return new InstantCommand(() -> {
+                imu.resetYaw();
+                gamepad1.rumble(100);
+                return null;
+            });});
     }
-
-    public void onUpdate() {
-
-        if (gamepad1.back) {
-            imu.resetYaw();
-            gamepad1.rumble(100);
-        }
-
-    }
-}
+   }

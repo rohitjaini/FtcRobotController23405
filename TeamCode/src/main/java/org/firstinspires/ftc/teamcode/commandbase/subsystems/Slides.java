@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
+import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
 import com.rowanmcalpin.nextftc.core.control.coefficients.PIDCoefficients;
 import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
@@ -39,6 +40,12 @@ public class Slides extends Subsystem {
                 0.0,
                 slidesController,
                 this);
+    }
+
+    public Command resetSlidesEncoder() {
+        return new InstantCommand(
+                () -> { rightSlideMotor.setCurrentPosition(0); return null; }
+        );
     }
 
     @Override
