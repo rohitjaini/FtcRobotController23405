@@ -11,6 +11,8 @@ import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 
 import org.firstinspires.ftc.teamcode.commandbase.subsystems.DepositBucket;
+import org.firstinspires.ftc.teamcode.commandbase.subsystems.IntakeArm;
+import org.firstinspires.ftc.teamcode.commandbase.subsystems.IntakeArmWrist;
 import org.firstinspires.ftc.teamcode.commandbase.subsystems.IntakeClaw;
 import org.firstinspires.ftc.teamcode.commandbase.subsystems.Slides;
 import org.firstinspires.ftc.teamcode.commandbase.subsystems.SpecClaw;
@@ -19,7 +21,7 @@ import org.firstinspires.ftc.teamcode.commandbase.subsystems.SpecClaw;
 public class NextFtcTeleop extends NextFTCOpMode {
 
     public NextFtcTeleop() {
-        super(DepositBucket.INSTANCE, IntakeClaw.INSTANCE, Slides.INSTANCE, SpecClaw.INSTANCE);
+        super(DepositBucket.INSTANCE, IntakeClaw.INSTANCE, Slides.INSTANCE, SpecClaw.INSTANCE, IntakeArm.INSTANCE, IntakeArmWrist.INSTANCE);
     }
 
     public String frontLeftName = "frontLeftMotor";
