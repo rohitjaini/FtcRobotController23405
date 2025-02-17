@@ -24,7 +24,6 @@ public class NextFtcTeleop extends NextFTCOpMode {
         super(DepositBucket.INSTANCE, IntakeClaw.INSTANCE, Slides.INSTANCE, SpecClaw.INSTANCE, IntakeArm.INSTANCE, IntakeArmWrist.INSTANCE);
     }
 
-    public String frontLeftName = "frontLeftMotor";
     public String backLeftName = "backLeftMotor";
     public String frontRightName = "frontRightMotor";
     public String backRightName = "backRightMotor";
@@ -42,6 +41,7 @@ public class NextFtcTeleop extends NextFTCOpMode {
 
     @Override
     public void onInit() {
+        String frontLeftName = "frontLeftMotor";
         frontLeftMotor = new MotorEx(frontLeftName);
         backLeftMotor = new MotorEx(backLeftName);
         backRightMotor = new MotorEx(backRightName);
