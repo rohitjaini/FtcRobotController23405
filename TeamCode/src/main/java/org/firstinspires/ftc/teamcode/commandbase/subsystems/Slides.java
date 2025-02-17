@@ -35,16 +35,30 @@ public class Slides extends Subsystem {
                 this);
     }
 
+    public Command toSpecBar() {
+        return new RunToPosition(rightSlideMotor,
+                SLIDE_SPEC_BAR_POSITION,
+                slidesController,
+                this);
+    }
+
     public Command toSpecClip() {
         return new RunToPosition(rightSlideMotor,
-                0.0,
+                SLIDE_SPEC_CLIP_POSITION,
+                slidesController,
+                this);
+    }
+
+    public Command toDeposit() {
+        return new RunToPosition(rightSlideMotor,
+                SLIDE_DEPOSIT_POSITION,
                 slidesController,
                 this);
     }
 
     public Command resetSlidesEncoder() {
         return new InstantCommand(
-                () -> { rightSlideMotor.setCurrentPosition(0); return null; }
+                () -> { slidesController.reset(); return null; }
         );
     }
 

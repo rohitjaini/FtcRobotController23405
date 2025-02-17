@@ -75,6 +75,12 @@ public class NextFtcTeleop extends NextFTCOpMode {
 
         gamepadManager.getGamepad2().getX().setPressedCommand(SpecClaw.INSTANCE::close); //close spec claw
 
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(Slides.INSTANCE::toDeposit);
+
+        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(Slides.INSTANCE::toLowest);
+
+        gamepadManager.getGamepad2().getBack().setPressedCommand(Slides.INSTANCE::resetSlidesEncoder);
+
         gamepadManager.getGamepad1().getBack().setPressedCommand(() -> {
             return new InstantCommand(() -> {
                 imu.resetYaw();
