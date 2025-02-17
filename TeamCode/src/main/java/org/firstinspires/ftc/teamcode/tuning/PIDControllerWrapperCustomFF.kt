@@ -18,7 +18,7 @@ class PIDControllerWrapperCustomFF(
 
     override fun calculate(reference: Double): Double {
 
-        val ff: Double = cos(Math.toRadians(target / armTicksInDegrees) - Math.toRadians(90.0) + Math.toRadians(90.0)) * setArmF
+        val ff: Double = cos(Math.toRadians(target / armTicksInDegrees) - Math.toRadians(ARM_INITIAL_ANGLE) + Math.toRadians(90.0)) * setArmF
 
         return ftcLibController.calculate(reference) + ff
     }

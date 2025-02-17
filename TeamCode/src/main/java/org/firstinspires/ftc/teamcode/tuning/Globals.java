@@ -8,7 +8,7 @@ public class Globals {
     public static double slideTicksInDegrees = 384.5 / 360.0;
 
     public static double MAX_ARM_POWER = 0.7;
-    public static int ARM_INITIAL_ANGLE = 90; //deg
+    public static double ARM_INITIAL_ANGLE = 90; //deg
     public static double MAX_SLIDE_POWER_UP = 1;
     public static double MAX_SLIDE_POWER_DOWN = 0.8;
     public static int SLIDE_DEPOSIT_POSITION = 2600;
