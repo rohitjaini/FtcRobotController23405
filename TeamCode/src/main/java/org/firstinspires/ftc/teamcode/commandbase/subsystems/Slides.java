@@ -11,6 +11,7 @@ import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
 import com.rowanmcalpin.nextftc.core.control.coefficients.PIDCoefficients;
 import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
+import com.rowanmcalpin.nextftc.ftc.hardware.controllables.HoldPosition;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
@@ -58,8 +59,13 @@ public class Slides extends Subsystem {
 
     public Command resetSlidesEncoder() {
         return new InstantCommand(
-                () -> { slidesController.reset(); return null; }
+                () -> { slidesController.getFtcLibController().reset(); return null; }
         );
+    }
+
+    @Override
+    public Command getDefaultCommand() {
+        return new HoldPosition(rightSlideMotor, slidesController, this);
     }
 
     @Override

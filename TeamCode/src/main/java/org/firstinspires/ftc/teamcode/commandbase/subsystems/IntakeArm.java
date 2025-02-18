@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.tuning.Globals.*;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
+import com.rowanmcalpin.nextftc.ftc.hardware.controllables.HoldPosition;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
@@ -49,6 +50,11 @@ public class IntakeArm extends Subsystem {
                 ARM_SUB_HOLD,
                 intakeArmController,
                 this);
+    }
+
+    @Override
+    public Command getDefaultCommand() {
+        return new HoldPosition(intakeArmMotor, intakeArmController, this);
     }
 
     @Override

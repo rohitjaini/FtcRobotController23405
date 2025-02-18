@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.rowanmcalpin.nextftc.core.command.Command;
@@ -27,6 +28,7 @@ public class NextFtcTeleop extends NextFTCOpMode {
     public String backLeftName = "backLeftMotor";
     public String frontRightName = "frontRightMotor";
     public String backRightName = "backRightMotor";
+    public String frontLeftName = "frontLeftMotor";
 
     public MotorEx frontLeftMotor;
     public MotorEx frontRightMotor;
@@ -41,7 +43,6 @@ public class NextFtcTeleop extends NextFTCOpMode {
 
     @Override
     public void onInit() {
-        String frontLeftName = "frontLeftMotor";
         frontLeftMotor = new MotorEx(frontLeftName);
         backLeftMotor = new MotorEx(backLeftName);
         backRightMotor = new MotorEx(backRightName);
@@ -52,6 +53,11 @@ public class NextFtcTeleop extends NextFTCOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        backLeftMotor.getMotor().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.getMotor().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.getMotor().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.getMotor().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motors = new MotorEx[] { frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor };
 
