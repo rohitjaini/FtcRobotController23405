@@ -1,15 +1,19 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
+import static org.firstinspires.ftc.teamcode.tuning.Globals.ARM_GRAB_POSITION;
+
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.rowanmcalpin.nextftc.core.command.Command;
+import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
 import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
 import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
+import org.firstinspires.ftc.teamcode.tuning.Globals.*;
 
 import org.firstinspires.ftc.teamcode.commandbase.subsystems.DepositBucket;
 import org.firstinspires.ftc.teamcode.commandbase.subsystems.IntakeArm;
@@ -17,6 +21,8 @@ import org.firstinspires.ftc.teamcode.commandbase.subsystems.IntakeArmWrist;
 import org.firstinspires.ftc.teamcode.commandbase.subsystems.IntakeClaw;
 import org.firstinspires.ftc.teamcode.commandbase.subsystems.Slides;
 import org.firstinspires.ftc.teamcode.commandbase.subsystems.SpecClaw;
+
+import kotlin.jvm.functions.Function0;
 
 @TeleOp
 public class NextFtcTeleop extends NextFTCOpMode {
@@ -79,15 +85,77 @@ public class NextFtcTeleop extends NextFTCOpMode {
 
         gamepadManager.getGamepad1().getLeftBumper().setPressedCommand(IntakeClaw.INSTANCE::transfer_intake_open); //open intake claw to release
 
-        gamepadManager.getGamepad2().getB().setPressedCommand(SpecClaw.INSTANCE::open); //open spec claw
+        gamepadManager.getGamepad2().getX().setPressedCommand(SpecClaw.INSTANCE::open); //open spec claw
 
-        gamepadManager.getGamepad2().getX().setPressedCommand(SpecClaw.INSTANCE::close); //close spec claw
+        gamepadManager.getGamepad2().getB().setPressedCommand(SpecClaw.INSTANCE::close); //close spec claw
 
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(Slides.INSTANCE::toDeposit);
+        gamepadManager.getGamepad2().getY().setPressedCommand(DepositBucket.INSTANCE::ToDeposit); //bring bucket to deposit to deposit sample
 
-        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(Slides.INSTANCE::toLowest);
+        gamepadManager.getGamepad2().getA().setPressedCommand(DepositBucket.INSTANCE::ToTransfer); //bring bucket to transfer to get ready for transfer
 
-        gamepadManager.getGamepad2().getBack().setPressedCommand(Slides.INSTANCE::resetSlidesEncoder);
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(Slides.INSTANCE::toDeposit); //bring slides fully up for sample deposit
+
+        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(Slides.INSTANCE::toLowest); //bring slides all the way down
+
+        gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(Slides.INSTANCE::toSpecBar);
+
+        gamepadManager.getGamepad2().getDpadRight().setPressedCommand(Slides.INSTANCE::toSpecClip);
+
+        gamepadManager.getGamepad2().getBack().setPressedCommand(Slides.INSTANCE::resetSlidesEncoder); //zero slides position in case of belt slip
+
+
+
+        // intake arm and wrist control
+        gamepadManager.getGamepad1().getA().setPressedCommand(
+                () -> new SequentialGroup(
+                        IntakeArm.INSTANCE.toGrab(),
+                        IntakeArmWrist.INSTANCE.grab(),
+                        IntakeClaw.INSTANCE.full_open()
+                )
+
+        );
+
+        gamepadManager.getGamepad1().getY().setPressedCommand(
+                () -> new SequentialGroup(
+                        IntakeArm.INSTANCE.toTransfer(),
+                        IntakeArmWrist.INSTANCE.transfer(),
+                        IntakeClaw.INSTANCE.transfer_intake_open()
+                )
+
+        );
+
+        gamepadManager.getGamepad1().getX().setPressedCommand(
+                () -> new SequentialGroup(
+                        IntakeArm.INSTANCE.toSubHold(),
+                        IntakeArmWrist.INSTANCE.grab()
+                )
+
+        );
+
+        gamepadManager.getGamepad1().getB().setPressedCommand(
+                () -> new SequentialGroup(
+                        IntakeArm.INSTANCE.toHold(),
+                        IntakeArmWrist.INSTANCE.hold()
+                )
+
+        );
+
+        gamepadManager.getGamepad1().getDpadDown().setPressedCommand( () -> {
+            return new InstantCommand(() -> {
+                ARM_GRAB_POSITION += 15;
+                return null;
+            });
+                }
+        );
+
+        gamepadManager.getGamepad1().getDpadUp().setPressedCommand( () -> {
+                    return new InstantCommand(() -> {
+                        ARM_GRAB_POSITION -= 15;
+                        return null;
+                    });
+                }
+        );
+
 
         gamepadManager.getGamepad1().getBack().setPressedCommand(() -> {
             return new InstantCommand(() -> {
