@@ -164,4 +164,14 @@ public class NextFtcTeleop extends NextFTCOpMode {
                 return null;
             });});
     }
-   }
+
+    @Override
+    public void onUpdate() {
+        telemetry.addData("Intake arm target position", IntakeArm.INSTANCE.intakeArmController.getTarget());
+        telemetry.addData("Intake arm current position", IntakeArm.INSTANCE.intakeArmMotor.getCurrentPosition());
+        telemetry.addData("Slides target position", Slides.INSTANCE.slidesController.getTarget());
+        telemetry.addData("Slides current position", Slides.INSTANCE.rightSlideMotor.getCurrentPosition());
+        telemetry.addData("IMU yaw angle", imu.getRobotYawPitchRollAngles().getYaw());
+        telemetry.update();
+    }
+}
