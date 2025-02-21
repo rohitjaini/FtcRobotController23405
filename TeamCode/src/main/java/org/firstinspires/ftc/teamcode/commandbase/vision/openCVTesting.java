@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
@@ -12,8 +13,11 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 
+@Disabled
+@TeleOp(name = "OpenCV Testing")
 public class openCVTesting implements VisionProcessor {
 
+    private openCVTesting controlHubCam;
     private Mat hsvMat;
     private Mat mask;
     private Paint paint;
@@ -89,3 +93,6 @@ public class openCVTesting implements VisionProcessor {
         canvas.drawRect(50, 50, 200, 200, paint);
     }
 }
+//opMode.telemetry.addData("Detected Color", detectedColor);
+//        opMode.telemetry.update();
+//        controlHubCam.stopStreaming();
