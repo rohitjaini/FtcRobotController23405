@@ -56,7 +56,11 @@ public class Pedro5Spec extends PedroOpMode {
     public Command secondRoutine() {
         return new SequentialGroup(
                 new FollowPath(goToRight,true),
-                Slides.INSTANCE.toLowest()
+                Slides.INSTANCE.toLowest(),
+                new FollowPath(pushSample1,true),
+                new FollowPath(pushSample2,true),
+                new FollowPath(pushSample3,true),
+                new FollowPath(pickUpSpecAfterPushingSamples,true)
         );
     }
 
@@ -220,6 +224,7 @@ public class Pedro5Spec extends PedroOpMode {
     @Override
     public void onStartButtonPressed() {
         firstRoutine().invoke();
+        secondRoutine().invoke();
 
     }
 }
