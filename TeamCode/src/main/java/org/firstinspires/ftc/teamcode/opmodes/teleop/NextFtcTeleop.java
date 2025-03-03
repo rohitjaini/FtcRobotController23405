@@ -171,7 +171,7 @@ public class NextFtcTeleop extends NextFTCOpMode {
         telemetry.addData("Intake arm current position", IntakeArm.INSTANCE.intakeArmMotor.getCurrentPosition());
         telemetry.addData("Slides target position", Slides.INSTANCE.slidesController.getTarget());
         telemetry.addData("Slides current position", Slides.INSTANCE.rightSlideMotor.getCurrentPosition());
-        telemetry.addData("IMU yaw angle", imu.getRobotYawPitchRollAngles().getYaw());
+        telemetry.addData("IMU yaw angle", Math.toDegrees(imu.getRobotYawPitchRollAngles().getYaw()));
         telemetry.update();
     }
 }
