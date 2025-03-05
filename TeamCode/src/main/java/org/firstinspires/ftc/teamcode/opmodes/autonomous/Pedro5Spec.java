@@ -55,12 +55,39 @@ public class Pedro5Spec extends PedroOpMode {
 
     public Command secondRoutine() {
         return new SequentialGroup(
-                new FollowPath(goToRight,true),
+                new SequentialGroup(new FollowPath(goToRight,true)),
                 Slides.INSTANCE.toLowest(),
-                new FollowPath(pushSample1,true),
-                new FollowPath(pushSample2,true),
-                new FollowPath(pushSample3,true),
-                new FollowPath(pickUpSpecAfterPushingSamples,true)
+                new SequentialGroup(new FollowPath(pushSample1,true)),
+                new SequentialGroup(new FollowPath(pushSample2,true)),
+                new SequentialGroup(new FollowPath(pushSample3,true)),
+                new SequentialGroup(new FollowPath(pickUpSpecAfterPushingSamples,true))
+        );
+    }
+
+    public Command thirdRoutine() {
+        return new SequentialGroup(
+                SpecClaw.INSTANCE.close(),
+                new Delay(0.1),
+                Slides.INSTANCE.toSpecBar(),
+                new SequentialGroup(new FollowPath(scoreSpec2,true)),
+                new Delay(0.2),
+                Slides.INSTANCE.toSpecClip(),
+                new Delay(0.1),
+                SpecClaw.INSTANCE.open()
+        );
+    }
+
+    public Command fourthRoutine() {
+        return new SequentialGroup(
+            new ParallelGroup(
+                    new FollowPath(goToZoneGetSpec3,true),
+                    Slides.INSTANCE.toLowest()
+            ),
+                new SequentialGroup(
+                        SpecClaw.INSTANCE.close(),
+                        new Delay(0.1),
+                        Slides.INSTANCE.toSpecBar()
+                )
         );
     }
 
@@ -225,6 +252,7 @@ public class Pedro5Spec extends PedroOpMode {
     public void onStartButtonPressed() {
         firstRoutine().invoke();
         secondRoutine().invoke();
+        thirdRoutine().invoke();
 
     }
 }
