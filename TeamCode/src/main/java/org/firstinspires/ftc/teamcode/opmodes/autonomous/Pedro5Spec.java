@@ -233,6 +233,8 @@ public class Pedro5Spec extends PedroOpMode {
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
 
+        buildPaths();
+
         telemetry1 = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetry1.update();
     }
