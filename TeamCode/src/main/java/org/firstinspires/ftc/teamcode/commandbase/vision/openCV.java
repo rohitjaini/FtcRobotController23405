@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commandbase.vision;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -22,6 +23,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
+@Config
 @TeleOp(name = "OpenCV Testing")
 
 public class openCV extends LinearOpMode {
