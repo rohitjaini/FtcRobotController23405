@@ -40,12 +40,11 @@ public class Pedro5Spec extends PedroOpMode {
                 new SequentialGroup(
                         SpecClaw.INSTANCE.close()
                 ),
-                new Delay(0.2),
+                new Delay(0.1),
                 new ParallelGroup(
                         new FollowPath(scoreSpec1,true),
                         Slides.INSTANCE.toSpecBar()
                 ),
-                new Delay(0.2),
                 new SequentialGroup(
                       Slides.INSTANCE.toSpecClip(),
                         SpecClaw.INSTANCE.open()
@@ -235,8 +234,6 @@ public class Pedro5Spec extends PedroOpMode {
 
         buildPaths();
 
-        telemetry1 = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetry1.update();
     }
 
     @Override
