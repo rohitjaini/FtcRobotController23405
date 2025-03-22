@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes.autonomous;
 
-import static com.rowanmcalpin.nextftc.ftc.OpModeData.telemetry;
-
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierLine;
@@ -11,22 +9,15 @@ import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
-
-
 import java.util.Timer;
 
-public class PedroPathingsampletest {
-}
-
-
-public class GeneratedPaths extends OpMode {
+public class GeneratedSamplePath extends OpMode {
     private Timer pathTimer;
     private Follower follower;
-    private Pose startPose = new Pose(0, 0, 0);
+    private Pose startPose = new Pose(8, 80, 0);
 
     public static PathBuilder builder = new PathBuilder();
 
@@ -90,7 +81,3 @@ public class GeneratedPaths extends OpMode {
         // Implementation for autonomousPathUpdate
     }
 }
-
-
-
-
