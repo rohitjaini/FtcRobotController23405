@@ -242,7 +242,7 @@ public class Pedro5Spec extends PedroOpMode {
     @Override
     public void onUpdate() {
 
-        follower.telemetryDebug(telemetry1);
+        follower.telemetryDebug(telemetry);
 
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
