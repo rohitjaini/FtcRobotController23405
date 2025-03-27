@@ -249,9 +249,11 @@ public class Pedro5Spec extends PedroOpMode {
 
     @Override
     public void onStartButtonPressed() {
-        firstRoutine().invoke();
-        secondRoutine().invoke();
-        thirdRoutine().invoke();
+        new SequentialGroup(
+                firstRoutine(),
+                secondRoutine(),
+                thirdRoutine()
+        ).invoke();
 
     }
 }
