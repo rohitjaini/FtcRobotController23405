@@ -59,7 +59,7 @@ public class Slides extends Subsystem {
 
     public Command resetSlidesEncoder() {
         return new InstantCommand(
-                () -> { slidesController.getFtcLibController().reset(); return null; }
+                () -> { slidesController.getFtcLibController().reset(); }
         );
     }
 
