@@ -143,7 +143,6 @@ public class NextFtcTeleop extends NextFTCOpMode {
         gamepadManager.getGamepad1().getDpadDown().setPressedCommand( () -> {
             return new InstantCommand(() -> {
                 ARM_GRAB_POSITION += 15;
-                return null;
             });
                 }
         );
@@ -151,7 +150,6 @@ public class NextFtcTeleop extends NextFTCOpMode {
         gamepadManager.getGamepad1().getDpadUp().setPressedCommand( () -> {
                     return new InstantCommand(() -> {
                         ARM_GRAB_POSITION -= 15;
-                        return null;
                     });
                 }
         );
@@ -161,7 +159,6 @@ public class NextFtcTeleop extends NextFTCOpMode {
             return new InstantCommand(() -> {
                 imu.resetYaw();
                 gamepad1.rumble(100);
-                return null;
             });});
     }
 
