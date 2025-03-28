@@ -140,26 +140,21 @@ public class NextFtcTeleop extends NextFTCOpMode {
 
         );
 
-        gamepadManager.getGamepad1().getDpadDown().setPressedCommand( () -> {
-            return new InstantCommand(() -> {
-                ARM_GRAB_POSITION += 15;
-            });
-                }
+        gamepadManager.getGamepad1().getDpadDown().setPressedCommand( () -> new InstantCommand(() -> {
+            ARM_GRAB_POSITION += 15;
+        })
         );
 
-        gamepadManager.getGamepad1().getDpadUp().setPressedCommand( () -> {
-                    return new InstantCommand(() -> {
-                        ARM_GRAB_POSITION -= 15;
-                    });
-                }
+        gamepadManager.getGamepad1().getDpadUp().setPressedCommand( () -> new InstantCommand(() -> {
+            ARM_GRAB_POSITION -= 15;
+        })
         );
 
 
-        gamepadManager.getGamepad1().getBack().setPressedCommand(() -> {
-            return new InstantCommand(() -> {
-                imu.resetYaw();
-                gamepad1.rumble(100);
-            });});
+        gamepadManager.getGamepad1().getBack().setPressedCommand(() -> new InstantCommand(() -> {
+            imu.resetYaw();
+            gamepad1.rumble(100);
+        }));
     }
 
     @Override
