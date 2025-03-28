@@ -54,12 +54,12 @@ public class Pedro5Spec extends PedroOpMode {
 
     public Command secondRoutine() {
         return new SequentialGroup(
-                new SequentialGroup(new FollowPath(goToRight,true)),
+                new SequentialGroup(new FollowPath(goToRight)),
                 Slides.INSTANCE.toLowest(),
-                new SequentialGroup(new FollowPath(pushSample1,true)),
-                new SequentialGroup(new FollowPath(pushSample2,true)),
-                new SequentialGroup(new FollowPath(pushSample3,true)),
-                new SequentialGroup(new FollowPath(pickUpSpecAfterPushingSamples,true))
+                new FollowPath(pushSample1),
+                new FollowPath(pushSample2,true),
+                new FollowPath(pushSample3,true),
+                new FollowPath(pickUpSpecAfterPushingSamples,true)
         );
     }
 
@@ -147,8 +147,8 @@ public class Pedro5Spec extends PedroOpMode {
 
     private final Pose parkControlPose = new Pose(19.719, 71.452, Math.toRadians(0));
 
-    private Path scoreSpec1, park;
-    private PathChain goToRight, pushSample1, pushSample2, pushSample3, pickUpSpecAfterPushingSamples, scoreSpec2, goToZoneGetSpec3, scoreSpec3, goToZoneGetSpec4, scoreSpec4, goToZoneGetSpec5, scoreSpec5;
+    private Path scoreSpec1, park, goToRight, pushSample1;
+    private PathChain pushSample2, pushSample3, pickUpSpecAfterPushingSamples, scoreSpec2, goToZoneGetSpec3, scoreSpec3, goToZoneGetSpec4, scoreSpec4, goToZoneGetSpec5, scoreSpec5;
 
     public void buildPaths() {
 
@@ -156,16 +156,12 @@ public class Pedro5Spec extends PedroOpMode {
         scoreSpec1.setConstantHeadingInterpolation(startPose.getHeading());
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        goToRight = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(scoreSpec1Pose), new Point(getGoToRightControlPose1), new Point(goToRightPose)))
-                .setLinearHeadingInterpolation(scoreSpec1Pose.getHeading(), goToRightPose.getHeading())
-                .build();
+        goToRight = new Path(new BezierCurve(new Point(scoreSpec1Pose), new Point(getGoToRightControlPose1), new Point(goToRightPose)));
+        goToRight.setLinearHeadingInterpolation(scoreSpec1Pose.getHeading(), goToRightPose.getHeading());
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        pushSample1 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(goToRightPose), new Point(pushSample1ControlPose1), new Point(pushSample1Pose)))
-                .setConstantHeadingInterpolation(pushSample1Pose.getHeading())
-                .build();
+        pushSample1 = new Path(new BezierCurve(new Point(goToRightPose), new Point(pushSample1ControlPose1), new Point(pushSample1Pose)));
+        pushSample1.setConstantHeadingInterpolation(pushSample1Pose.getHeading());
 
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         pushSample2 = follower.pathBuilder()
@@ -238,8 +234,6 @@ public class Pedro5Spec extends PedroOpMode {
 
     @Override
     public void onUpdate() {
-
-        follower.telemetryDebug(telemetry);
 
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
