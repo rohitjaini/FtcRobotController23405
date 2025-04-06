@@ -116,7 +116,6 @@ public class openCV extends LinearOpMode {
                 Imgproc.circle(input, new Point(cX, cY), 5, new Scalar(0, 255, 0), -1);
 
             }
-
             return input;
         }
 
